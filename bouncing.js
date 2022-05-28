@@ -95,7 +95,7 @@ function setup(){
 
   //profile picture
   pfpx = (width*0.5) - pfp.width/2;
-  pfpy = (height*0.5) - pfp.height/2;
+  pfpy = (height*0.5) - pfp.height/2 - 24;
 }
 
 function draw() {
