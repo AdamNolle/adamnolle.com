@@ -2,7 +2,7 @@
 
 ## My personal website.
 
-- This is all the code and files for my website.
+- This is all the code and files for my personal website.
 - This website is a continuing project meaning I will try to maintain and keep it updated as time goes on, with no schedule just whenever I want to make additions or changes to the site.
 
 # Development
