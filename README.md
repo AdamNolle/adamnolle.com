@@ -25,3 +25,7 @@
 - **Raspberry Pi:** If you self-host a website it's always a good idea to have a static IP [here is the tutorial](https://www.youtube.com/watch?v=LCJtUbRlIXE) I used to do that on a Raspberry Pi. If you plan on using a Raspberry Pi this is a fantastic and quick tutorial on setting up an [Apache Web Server](https://www.youtube.com/watch?v=bwQd3OpADNo&list=PLb57qDyElIYUq33uvYXzWs5n7GyeKrEjj&index=10) (this also works for the Chromebox option).
 
 - **Chrombox:** [This is a fantastic tutorial](https://www.youtube.com/watch?v=6t4upBIKxUo) for rooting a Chrombox and installing your Linux OS of choice. Be aware the process of rooting a Chromebox can be different for every model so be patient and research how to do it. It is a fun project and gives more functionality to an old Chromebox! Raspberry Pi tutorial for [Apache Web Server](https://www.youtube.com/watch?v=bwQd3OpADNo&list=PLb57qDyElIYUq33uvYXzWs5n7GyeKrEjj&index=10) still works just ignore the first few steps about setting up and flashing a Pi which is where the aforementioned tutorial comes in.
+
+# Blog Page
+
+The blog page is the biggest work in progress. Currently I plan on writing my posts in Obsidian using this [plugin]([GitHub - KosmosisDire/obsidian-webpage-export: Exports obsidian documents as html, correctly including all styling and formatting.](https://github.com/KosmosisDire/obsidian-webpage-export)) (big thanks to the developer of this plugin). Then dropping them onto my Digital Ocean server. 
