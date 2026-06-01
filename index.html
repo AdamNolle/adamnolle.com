@@ -1,99 +1,73 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Adam Nolle</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Adam Nolle — Terminal Eighty</title>
+    <meta
+      name="description"
+      content="Adam Nolle's portfolio — an explorable 3D room of projects, code, and music. Brand: Terminal Eighty."
     />
-    <script defer src="https://use.fontawesome.com/releases/v6.1.1/js/all.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"></script>
-    <link rel="shortcut icon" href="media/favicon.png"/>
-    <script src="./bouncing.js"></script>
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-      }
-      canvas {
-        display: block;
-      }
-    </style>
+    <meta name="author" content="Adam Nolle" />
+    <meta name="theme-color" content="#10141b" />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="canonical" href="https://adamnolle.com/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Adam Nolle — Terminal Eighty" />
+    <meta
+      property="og:description"
+      content="An explorable 3D bedroom portfolio. Turn to each wall to explore projects, code, and music."
+    />
+    <meta property="og:url" content="https://adamnolle.com/" />
+    <meta property="og:image" content="https://adamnolle.com/media/adamlogo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Adam Nolle — Terminal Eighty" />
+    <meta
+      name="twitter:description"
+      content="An explorable 3D bedroom portfolio. Turn to each wall to explore projects, code, and music."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <nav class="navbar is-black">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="index.html" style="font-weight: bold">
-            <img src="media/adamlogo.png" alt="Logo">
-          </a>
-          </a>
-          <span class="navbar-burger burger" data-target="navMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </div>
-        <div id="navMenu" class="navbar-menu">
-          <div class="navbar-end">
-            <a href="index.html" class="navbar-item is active">Home</a>
-            <a href="https://www.terminaleighty.com/" class="navbar-item">Blog</a>
-            <a href="about.html" class="navbar-item">About Me</a>
-            <a href="https://www.youtube.com/@terminaleighty" class="navbar-item">
-              <span class="icon-text">
-                <span class="icon">
-                  <i class="fa-brands fa-youtube"></i>
-                </span>
-                <span>YouTube</span>
-              </span>
-            </a>
-            <a href="https://github.com/AdamNolle" class="navbar-item">
-              <span class="icon-text">
-                <span class="icon">
-                  <i class="fa-brands fa-github"></i>
-                </span>
-              </span>
-            </a>
-            <a href="https://www.linkedin.com/in/adam-nolle/" class="navbar-item">
-              <span class="icon-text">
-                <span class="icon">
-                  <i class="fa-brands fa-linkedin"></i>
-                </span>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <script type="text/javascript">
-      (function () {
-        var burger = document.querySelector(".burger");
-        var nav = document.querySelector("#" + burger.dataset.target);
+    <a class="skip-link" href="#fallback">Skip to content</a>
+    <div id="root"></div>
 
-        burger.addEventListener("click", function () {
-          burger.classList.toggle("is-active");
-          nav.classList.toggle("is-active");
-        });
-      })();
-    </script>
-    <script>
-      window.onresize = () => {
-        location.reload();
-      }
-    </script>
+    <noscript>
+      <main id="fallback" class="noscript">
+        <h1>Adam Nolle — Terminal Eighty</h1>
+        <p>
+          This site is an interactive 3D room that needs JavaScript. Here are the highlights as
+          plain text.
+        </p>
+        <h2>Projects</h2>
+        <ul>
+          <li><a href="https://github.com/AdamNolle/terminal-eighty-blog">Web World Wide</a> — flagship: $0/month self-hosted blog stack (Astro + Node on a Raspberry Pi) replacing Ghost/WordPress.</li>
+          <li><a href="https://github.com/AdamNolle/FileID">FileID</a> — AI that identifies &amp; tags files by content (Rust).</li>
+          <li><a href="https://github.com/AdamNolle/Family-Room">Family Room</a> — self-hosted home-media archive (JS).</li>
+          <li><a href="https://github.com/AdamNolle/Document-Finder">Document Finder</a> — scrapes PDFs into an AI context bundle (Rust).</li>
+          <li><a href="https://github.com/AdamNolle/3DSeen">3DSeen</a> — iPhone-LiDAR 3D scanner (Swift/iOS).</li>
+          <li><a href="https://github.com/AdamNolle/LiveBlock">LiveBlock</a> — vision model that blocks brand logos in broadcasts (Swift/ML).</li>
+          <li><a href="https://github.com/AdamNolle/YouTube-Rabbit-Hole-Stopper">The Block Suite</a> — attention-defense browser extensions (JS, Chrome).</li>
+          <li><a href="https://github.com/AdamNolle/DeepBreak">DeepBreak</a> — adversarial anti-deepfake (Python).</li>
+          <li><a href="https://github.com/AdamNolle/TempoTyper">TempoTyper</a> — keyboard rhythm game; type in tempo (Python).</li>
+        </ul>
+        <h2>Links</h2>
+        <ul>
+          <li><a href="https://github.com/AdamNolle">GitHub</a></li>
+          <li><a href="https://www.terminaleighty.com/">Blog (Terminal Eighty)</a></li>
+          <li><a href="https://www.youtube.com/@terminaleighty">YouTube</a></li>
+          <li><a href="https://www.linkedin.com/in/adam-nolle/">LinkedIn</a></li>
+        </ul>
+      </main>
+    </noscript>
+
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
-<!--Helpful Youtube Tutorial for NavBar-->
-<!--https://www.youtube.com/watch?v=I6nuWeylMYM-->
-<!--Icons fix on Stack Overflow-->
-<!--https://stackoverflow.com/questions/47682110/bulma-icon-not-showing-up-->
-<!--INCREDIBLY helpful tutorial on the bouncing icons from YouTube Channel The Coding Train-->
-<!--https://www.youtube.com/watch?v=0j86zuqqTlQ-->
-<!--To get a simple rounded profile picture I used this site below to crop-->
-<!--https://profilepicturemaker.com/-->
-<!--To address reloading the screen and fixing the javascript, quick solution here-->
-<!--https://thewebdev.info/2022/02/06/how-to-refresh-the-screen-on-browser-resize-with-javascript/-->
