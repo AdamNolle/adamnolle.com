@@ -92,12 +92,12 @@ for (const page of pages) {
     if (!assetPaths.has(src.split(/[?#]/)[0])) note('missing asset', `${where} references ${src}`)
   }
 
-  /* ------------------------------------------------------- external link safety */
+  /* ---------------------------------------------------------------- new tabs */
 
-  for (const m of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
-    if (!/rel="[^"]*noopener/.test(m[0])) {
-      note('unsafe target', `${where} opens a new tab without rel=noopener`)
-    }
+  // Every link navigates in place. On a phone a new tab reads as a dead tap,
+  // and the back gesture does not come home.
+  for (const _ of html.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) {
+    note('new tab', `${where} has a link that opens in a new tab`)
   }
 
   /* -------------------------------------------------------------- accessibility */

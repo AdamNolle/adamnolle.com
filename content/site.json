@@ -405,50 +405,63 @@
           "current": true,
           "location": "ST. LOUIS, MO",
           "bullets": [
-            "Engineer scalable Scala backend services modernizing mission-critical healthcare infrastructure for the Centers for Medicare & Medicaid Services.",
-            "Orchestrate secure CI/CD pipelines that automate testing and deployment, holding to Section 508 compliance and federal security standards.",
-            "Optimize high-volume data processing on an Agile team, with rigorous code review and functional programming practice."
+            "Developing resilient backend applications for the public sector using Scala.",
+            "Collaborating in an Agile team to deliver secure, high-quality code for critical services."
           ],
           "tags": [
             "SCALA",
-            "FUNCTIONAL PROGRAMMING",
-            "CI/CD",
-            "AGILE"
+            "BACKEND",
+            "AGILE",
+            "PUBLIC SECTOR"
           ]
         },
         {
-          "org": "St. Charles County",
+          "org": "Saint Charles County Government",
           "period": "JUN — AUG 2025",
-          "role": "WIRELESS COMMUNICATIONS / NETWORK SPECIALIST I",
-          "location": "ST. CHARLES, MO",
+          "role": "WIRELESS COMMUNICATIONS NETWORK SPECIALIST I",
+          "location": "ST. CHARLES COUNTY, MO",
           "bullets": [
-            "Held 99.9% uptime on the P25 radio, microwave and LAN/WAN systems carrying county-wide public safety and emergency response traffic.",
-            "Diagnosed hardware faults with RF analysis tools and ran the preventative maintenance that kept downtime off the board.",
-            "Coordinated vendors and first responders to deploy resilient comms infrastructure under strict regulatory protocol."
+            "Maintain and troubleshoot mission-critical P25 radio, microwave, and LAN/WAN systems supporting public safety communications across the county.",
+            "Diagnose and resolve technical issues using network analyzers and RF tools; perform system upgrades and preventative maintenance.",
+            "Collaborate with contractors and first responders to deploy secure, reliable communication infrastructure, ensuring compliance with operational standards and regulatory policies."
           ],
           "tags": [
             "P25 RADIO",
-            "RF ANALYSIS",
             "MICROWAVE",
-            "LAN / WAN"
+            "LAN / WAN",
+            "RF TOOLS"
           ]
         },
         {
           "org": "J.B. Hunt Transport Services",
-          "period": "MAY 2023 — JUL 2024",
-          "role": "APPLICATION DEVELOPMENT INTERN",
+          "period": "MAY — JUL 2024",
+          "role": "PLATFORM INTERN",
           "location": "FAYETTEVILLE, AR",
           "bullets": [
-            "Architected a real-time Location Panel in TypeScript and Angular, wired into CI/CD, giving dispatch live shipment tracking visibility.",
-            "Led the Design Systems team: reusable Storybook (CSF3) components and enforced accessibility standards across the internal UI library.",
-            "Drove the unit testing push with Karma to raise coverage, and ran the daily Agile ceremonies."
+            "Developed a Location Panel using TypeScript and Angular for the J.B. Hunt shipment platform, providing map coordinates and user submitted comments."
+          ],
+          "tags": [
+            "TYPESCRIPT",
+            "ANGULAR",
+            "AGILE"
+          ]
+        },
+        {
+          "org": "J.B. Hunt Transport Services",
+          "period": "MAY — JUL 2023",
+          "role": "DESIGN SYSTEMS INTERN",
+          "location": "FAYETTEVILLE, AR",
+          "bullets": [
+            "Team Lead for the Design System Interns Team, participating in daily standups to present our work.",
+            "Worked with various custom J.B. Hunt Angular components based on PrimeNG components.",
+            "Wrote new Storybook stories for J.B. Hunt components to meet CSF3 (Component Story Format 3) standards, written in TypeScript."
           ],
           "tags": [
             "TYPESCRIPT",
             "ANGULAR",
             "STORYBOOK",
-            "KARMA",
-            "CI/CD"
+            "CSF3",
+            "PRIMENG"
           ]
         }
       ]
@@ -464,14 +477,15 @@
           "location": "ROLLA, MO",
           "marker": true,
           "bullets": [
-            "Directed a large student chapter, overseeing nine sub-organizations and the resources behind events, servers and the student storefront.",
-            "Secured and allocated over $18,000 to deploy high-performance AI development servers, opening compute access to the whole student body.",
-            "Ran major events including the MegaMiner AI coding competition."
+            "Developed and managed many new ACM services and events, including MegaMiner AI (revived), a new ACM Wiki, an online storefront for ACM merchandise, an ACM file server and the ACM general website.",
+            "Created a new ACM Logistics Officer position to help with the organization and functionality of ACM.",
+            "Worked with the Treasurer, Vice-President Internal, Vice-President External and Logistics Officer to organize events, manage conflicts, provide resources, and work with Administration for ACM and all its SIGs."
           ],
           "tags": [
-            "9 SUB-ORGS",
-            "$18,000+ SECURED",
-            "MEGAMINER"
+            "MEGAMINER AI",
+            "ACM WIKI",
+            "STOREFRONT",
+            "FILE SERVER"
           ]
         },
         {

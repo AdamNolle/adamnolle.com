@@ -12,15 +12,6 @@ export const esc = (s) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 
-const isExternal = (href) => /^https?:\/\//i.test(String(href ?? ''))
-
-/** Attributes that make an external link safe and announce the new tab. */
-const extAttrs = (href) =>
-  isExternal(href) ? ' target="_blank" rel="noopener noreferrer"' : ''
-
-const newTabNote = (href) =>
-  isExternal(href) ? '<span class="sr-only"> (opens in a new tab)</span>' : ''
-
 /**
  * Minimal inline markup for prose fields: `[label](https://url)` only.
  * Everything else is escaped, so JSON can never inject HTML.
@@ -34,7 +25,7 @@ export function rich(text) {
   while ((m = re.exec(src))) {
     out.push(esc(src.slice(last, m.index)))
     out.push(
-      `<a class="inlink" href="${esc(m[2])}"${extAttrs(m[2])}>${esc(m[1])}${newTabNote(m[2])}</a>`
+      `<a class="inlink" href="${esc(m[2])}">${esc(m[1])}</a>`
     )
     last = m.index + m[0].length
   }
@@ -61,7 +52,7 @@ function renderHeader(d) {
   const nav = h.nav
     .map(
       (n) =>
-        `<a class="navlink" href="${esc(n.href)}"${extAttrs(n.href)}>${esc(n.label)}${newTabNote(n.href)}</a>`
+        `<a class="navlink" href="${esc(n.href)}">${esc(n.label)}</a>`
     )
     .join('\n        ')
 
@@ -70,7 +61,7 @@ function renderHeader(d) {
   const social = h.social
     .map(
       (s) =>
-        `<a class="iconlink" href="${esc(s.href)}"${extAttrs(s.href)} title="${esc(s.tooltip ?? s.label)}" aria-label="${esc(s.label)}">${icon(s.icon)}</a>`
+        `<a class="iconlink" href="${esc(s.href)}" title="${esc(s.tooltip ?? s.label)}" aria-label="${esc(s.label)}">${icon(s.icon)}</a>`
     )
     .join('\n        ')
 
@@ -119,7 +110,7 @@ function renderHero(d) {
   const ctas = h.ctas
     .map(
       (c) =>
-        `<a class="cta cta--${esc(c.variant)}" href="${esc(c.href)}"${extAttrs(c.href)}>${esc(c.label)}</a>`
+        `<a class="cta cta--${esc(c.variant)}" href="${esc(c.href)}">${esc(c.label)}</a>`
     )
     .join('\n            ')
 
@@ -191,7 +182,7 @@ function renderProjects(d) {
       const actions =
         p.site && p.source
           ? `<span class="card__action" aria-hidden="true">VISIT →</span>
-            <a class="card__action card__action--src" href="${esc(p.source)}"${extAttrs(p.source)}
+            <a class="card__action card__action--src" href="${esc(p.source)}"
               aria-label="${esc(`${p.name} source on GitHub`)}">SOURCE →</a>`
           : `<span class="card__action" aria-hidden="true">${primaryLabel} →</span>`
 
@@ -204,7 +195,7 @@ function renderProjects(d) {
           <div class="card__top">
             ${projectLogo(p)}
             <div class="card__id">
-              <h3 class="card__name"><a class="card__primary" href="${esc(primary)}"${extAttrs(primary)}>${esc(p.name)}${newTabNote(primary)}</a></h3>
+              <h3 class="card__name"><a class="card__primary" href="${esc(primary)}">${esc(p.name)}</a></h3>
               <span class="card__kind">${esc(p.kind)}</span>
             </div>
           </div>
@@ -237,7 +228,7 @@ function renderProfile(d) {
   const rows = p.sysinfo
     .map((r) => {
       const value = r.href
-        ? `<a class="metalink" href="${esc(r.href)}"${extAttrs(r.href)}>${esc(r.value)}${newTabNote(r.href)}</a>`
+        ? `<a class="metalink" href="${esc(r.href)}">${esc(r.value)}</a>`
         : esc(r.value)
       return `<div class="meta__row">
             <dt class="meta__key">${esc(r.label)}</dt>
@@ -291,9 +282,9 @@ function renderWww(d) {
   const w = d.www
   const links = w.links
     .map(
-      (l) => `<a class="wwwlink" href="${esc(l.href)}"${extAttrs(l.href)}>
+      (l) => `<a class="wwwlink" href="${esc(l.href)}">
               <span>${esc(l.label)}</span>
-              <span class="wwwlink__sub">${esc(l.sub)}${newTabNote(l.href)}</span>
+              <span class="wwwlink__sub">${esc(l.sub)}</span>
             </a>`
     )
     .join('\n            ')
@@ -456,7 +447,7 @@ function classicNav(d) {
           ? `<span>${esc(n.label)}</span>`
           : esc(n.label)
       const inner = n.icon ? `<span class="icon-text">${glyph}${text}</span>` : text
-      return `<a href="${esc(n.href)}" class="navbar-item"${extAttrs(n.href)}>${inner}</a>`
+      return `<a href="${esc(n.href)}" class="navbar-item">${inner}</a>`
     })
     .join('\n            ')
 
