@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="<!--@lang-->" class="classic-root">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--@head-->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+      integrity="sha384-HmYpsz2Aa9Gh3JlkCoh8kUJ2mUKJKTnkyC2Lzt8aLzpPOpnDe8KpFE2xNiBpMDou"
+      crossorigin="anonymous"
+    />
+    <!-- p5 runs the sketch on window load, so deferring both keeps the order
+         and stops a 1 MB library from blocking the parser. -->
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/p5.min.js"
+      integrity="sha384-iY8W5W1XLvt2e9XipUFTSogZoBMHq7jqa+kirliG8+eQlwsLA2crnG7Op0ifDniT"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="/classic/bouncing.js"></script>
+  </head>
+  <body class="classic classic--canvas">
+    <!--@body-->
+    <script type="module" src="/src/classic/classic.ts"></script>
+  </body>
+</html>

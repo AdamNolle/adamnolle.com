@@ -1,0 +1,137 @@
+/* ==========================================================================
+   Classic site — the 2022 original, layered on Bulma.
+
+   Only what the original had plus the floating "back to the new site" button
+   from the redesign and the accessibility bits the original was missing.
+   ========================================================================== */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The canvas page is a full-bleed screensaver; the about page scrolls.
+   p5 sizes the canvas to the full window, so with the navbar above it the
+   document is a navbar taller than the viewport. Clipping at the root keeps
+   the original look without a stray scrollbar. */
+.classic-root,
+.classic--canvas {
+  overflow: hidden;
+  background: #090522;
+}
+
+.navbar-brand img {
+  height: auto;
+  max-height: 28px;
+  width: auto;
+}
+
+/* Bulma's .icon expects a font glyph; these are inline SVGs instead. */
+.navbar-item .icon .ico {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+  display: block;
+}
+
+/* Bulma renders .navbar-burger as an <a>; as a <button> it needs resetting. */
+.navbar-burger {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------- back to the new site */
+
+.backhome {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: #ffffff;
+  border: 4px solid #000000;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.55);
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.backhome:hover {
+  background: #00ff00;
+  color: #000000;
+  transform: translateX(-50%) translateY(-3px);
+}
+
+.backhome:focus-visible {
+  outline: 3px solid #00ff00;
+  outline-offset: 3px;
+}
+
+.backhome__mark {
+  width: 22px;
+  height: 22px;
+  background: #000000;
+  position: relative;
+  flex-shrink: 0;
+  display: block;
+}
+
+.backhome__mark span {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  right: 3px;
+  height: 4px;
+  background: #00ff00;
+  display: block;
+}
+
+/* Keep the button clear of the last card on the scrolling about page. */
+.classic:not(.classic--canvas) {
+  padding-bottom: 96px;
+}
+
+@media (max-width: 420px) {
+  .backhome {
+    font-size: 0.72rem;
+    padding: 10px 14px;
+    gap: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

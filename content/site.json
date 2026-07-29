@@ -1,0 +1,618 @@
+{
+  "$schema-notes": {
+    "about": "Single source of truth for adamnolle.com. Everything on the site is rendered from this file at build time — edit here, run npm run build, done.",
+    "prose links": "profile.intro accepts [label](https://example.com). No other markup is allowed anywhere; all values are escaped.",
+    "projects": "source is required, site is optional. A project with both shows VISIT and SOURCE; one with only source shows SOURCE. status LIVE draws a filled marker, anything else an outline.",
+    "hero.windowLabel": "Text in the hero terminal title bar. Leave empty to hide it.",
+    "site.tabTitle": "Browser tab text. site.title is the longer form used for link previews.",
+    "history[].entries[]": "current: true tints the role green and fills the timeline marker. marker: true fills it without the tint."
+  },
+  "site": {
+    "lang": "en",
+    "tabTitle": "Adam Nolle",
+    "title": "Adam Nolle — Application Developer",
+    "description": "Adam Nolle — application developer at Accenture Federal Services. Rust, Scala, TypeScript and Swift projects, and the story so far.",
+    "author": "Adam Nolle",
+    "url": "https://adamnolle.com/",
+    "ogImage": "/media/adam.png",
+    "themeColor": {
+      "light": "#f0f0f0",
+      "dark": "#070707"
+    }
+  },
+  "header": {
+    "homeLabel": "Adam Nolle — back to top",
+    "nav": [
+      {
+        "label": "PROJECTS",
+        "href": "#work"
+      },
+      {
+        "label": "PROFILE",
+        "href": "#about"
+      },
+      {
+        "label": "HISTORY",
+        "href": "#history"
+      },
+      {
+        "label": "BLOG",
+        "href": "https://webworldwide.online/blog/"
+      }
+    ],
+    "social": [
+      {
+        "icon": "github",
+        "label": "GitHub",
+        "href": "https://github.com/AdamNolle"
+      },
+      {
+        "icon": "linkedin",
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/adam-nolle/"
+      }
+    ],
+    "classicLink": {
+      "label": "Visit my classic site",
+      "href": "/classic/"
+    },
+    "themeToggle": {
+      "toDark": "Switch to dark mode",
+      "toLight": "Switch to light mode"
+    }
+  },
+  "hero": {
+    "windowLabel": "",
+    "heading": "Adam Nolle — Application Developer",
+    "asciiWords": [
+      "ADAM",
+      "NOLLE"
+    ],
+    "nameFallback": "ADAM NOLLE",
+    "lines": [
+      "> APPLICATION DEVELOPER · ACCENTURE FEDERAL SERVICES (AFS)",
+      "> B.S. CS + CPE, MATH MINOR · MISSOURI S&T"
+    ],
+    "ctas": [
+      {
+        "label": "VIEW PROJECTS",
+        "href": "#work",
+        "variant": "solid"
+      },
+      {
+        "label": "WEB WORLD WIDE",
+        "href": "#www",
+        "variant": "outline"
+      }
+    ]
+  },
+  "sections": {
+    "work": {
+      "num": "01",
+      "title": "PROJECTS"
+    },
+    "about": {
+      "num": "02",
+      "title": "PROFILE"
+    },
+    "www": {
+      "num": "03",
+      "title": "WEB WORLD WIDE"
+    },
+    "history": {
+      "num": "04",
+      "title": "HISTORY"
+    }
+  },
+  "projects": [
+    {
+      "name": "FileID",
+      "kind": "DESKTOP · CLI · TUI",
+      "site": "https://fileid.webworldwide.online/",
+      "source": "https://github.com/AdamNolle/FileID",
+      "status": "LIVE",
+      "accent": "#f2c200",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/fileid.png"
+      },
+      "description": "Point it at a folder and it reads everything inside. Tags by content, clusters faces into people you name once, groups duplicates. Runs entirely on your machine.",
+      "tags": [
+        "RUST",
+        "SWIFT",
+        "WINUI",
+        "GTK4"
+      ]
+    },
+    {
+      "name": "Document Finder",
+      "kind": "DESKTOP APP",
+      "site": "https://documentfinder.webworldwide.online/",
+      "source": "https://github.com/AdamNolle/Document-Finder",
+      "status": "LIVE",
+      "accent": "#5aa9d6",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/document-finder.png"
+      },
+      "description": "Searches eight open-access research sources plus the web at once, downloads what it finds, pulls the text out, and bundles the lot into a zip you can drop straight into an AI context window.",
+      "tags": [
+        "RUST",
+        "SOLID.JS",
+        "TAURI"
+      ]
+    },
+    {
+      "name": "Guitar Tutor",
+      "kind": "WEB APP · PWA",
+      "site": "https://adamnolle.github.io/Guitar-Tutor/",
+      "source": "https://github.com/AdamNolle/Guitar-Tutor",
+      "status": "LIVE",
+      "accent": "#c8622f",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/guitar-tutor.png"
+      },
+      "description": "Fretboard, chord library, ear trainer, metronome. Every string is synthesized live with a Karplus-Strong model instead of samples, so the whole thing is about 72 KB and works offline.",
+      "tags": [
+        "PREACT",
+        "VITE",
+        "PWA"
+      ]
+    },
+    {
+      "name": "Keyboard Tutor",
+      "kind": "WEB APP · PWA",
+      "site": "https://adamnolle.github.io/Keyboard-Tutor/",
+      "source": "https://github.com/AdamNolle/Keyboard-Tutor",
+      "status": "LIVE",
+      "accent": "var(--ink)",
+      "hoverShadow": "var(--shade)",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/keyboard-tutor.png"
+      },
+      "description": "Play the keys, build chords, train your ear, keep time. Works with the computer keyboard or a MIDI controller, generates its own sound, and needs no account or backend.",
+      "tags": [
+        "TYPESCRIPT",
+        "VITE",
+        "PWA"
+      ]
+    },
+    {
+      "name": "Cube Solver",
+      "kind": "DESKTOP · BROWSER",
+      "source": "https://github.com/AdamNolle/Cube-Solver",
+      "status": "LIVE",
+      "accent": "#d6203c",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/cube-solver.png"
+      },
+      "description": "Scramble it or turn faces yourself, then watch it solve from the sticker colors alone. Every solution has to replay back to solved before it counts. Desktop goes to 11×11.",
+      "tags": [
+        "RUST",
+        "WEBASSEMBLY",
+        "TAURI"
+      ]
+    },
+    {
+      "name": "LiveBlock",
+      "kind": "CROSS-PLATFORM",
+      "source": "https://github.com/AdamNolle/LiveBlock",
+      "status": "UNFINISHED",
+      "accent": "#f0466a",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/liveblock.png"
+      },
+      "description": "An ad blocker that works at the display layer instead of inside the browser, so it covers apps and streams too. Detection runs on device.",
+      "tags": [
+        "SWIFT",
+        "COREML",
+        "TAURI"
+      ]
+    },
+    {
+      "name": "3DSeen",
+      "kind": "IOS · IPADOS · MACOS",
+      "source": "https://github.com/AdamNolle/3DSeen",
+      "status": "UNFINISHED",
+      "accent": "#4a90d9",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/3dseen.png"
+      },
+      "description": "Guided photogrammetry and LiDAR capture on iPhone, with optional handoff to a paired Mac for the heavy processing. Exports USDZ, OBJ, STL and PLY.",
+      "tags": [
+        "SWIFT",
+        "ARKIT",
+        "METAL"
+      ]
+    },
+    {
+      "name": "Habit Map",
+      "kind": "IOS · IPADOS · WATCHOS",
+      "source": "https://github.com/AdamNolle/Habit-Map",
+      "status": "UNFINISHED",
+      "accent": "#58c96a",
+      "logo": {
+        "type": "habitGrid",
+        "cells": [
+          0.2,
+          0.55,
+          1,
+          0.35,
+          0.15,
+          0.8,
+          0.15,
+          0.45,
+          1,
+          0.25,
+          0.3,
+          1,
+          0.7,
+          0.2,
+          0.55,
+          0.15,
+          0.4,
+          0.25,
+          0.85,
+          1,
+          0.6,
+          0.2,
+          0.95,
+          0.3,
+          0.15
+        ]
+      },
+      "description": "A pixel-art habit tracker for iPhone, iPad and Watch that does not punish you for missing a day.",
+      "tags": [
+        "SWIFT",
+        "SWIFTUI",
+        "WATCHOS"
+      ]
+    },
+    {
+      "name": "Web",
+      "kind": "DESKTOP · LOCAL-FIRST",
+      "source": "https://github.com/AdamNolle/Web",
+      "status": "UNFINISHED",
+      "accent": "#5b21b6",
+      "logo": {
+        "type": "dot",
+        "bg": "#5b21b6"
+      },
+      "description": "An RSS reader that builds one daily edition and then stops, instead of a feed that never ends. Everything stays in a local SQLite file.",
+      "tags": [
+        "RUST",
+        "TAURI",
+        "REACT",
+        "SQLITE"
+      ]
+    }
+  ],
+  "profile": {
+    "intro": "Hi! I'm Adam and I love technology and making things. This site has a little bit about me — you can find more on [webworldwide.online](https://webworldwide.online/).",
+    "secondary": "In my free time I collect CDs and vinyl. I'm trying to learn the guitar and make beats. I just love pursuing whatever creative endeavor comes to mind.",
+    "sysinfoLabel": "SYSINFO",
+    "sysinfo": [
+      {
+        "label": "ROLE",
+        "value": "Application Developer"
+      },
+      {
+        "label": "COMPANY",
+        "value": "Accenture Federal Services"
+      },
+      {
+        "label": "DEGREE",
+        "value": "B.S. CS + CPE, Math minor"
+      },
+      {
+        "label": "SCHOOL",
+        "value": "Missouri S&T, Dec 2024"
+      },
+      {
+        "label": "WRITING",
+        "value": "Web World Wide Blog",
+        "href": "https://webworldwide.online/blog/"
+      },
+      {
+        "label": "OFFLINE",
+        "value": "Guitar, beats, vinyl, homelab"
+      }
+    ],
+    "skills": [
+      {
+        "group": "LANGUAGES",
+        "accent": "#d84fa0",
+        "items": [
+          "Scala",
+          "Python",
+          "C++",
+          "TypeScript",
+          "JavaScript",
+          "Java",
+          "SQL"
+        ]
+      },
+      {
+        "group": "FRAMEWORKS",
+        "accent": "#5aa9d6",
+        "items": [
+          "Angular",
+          "React",
+          "Astro",
+          "Play",
+          "Akka",
+          "Tauri",
+          "Storybook"
+        ]
+      },
+      {
+        "group": "TOOLS",
+        "accent": "#f2c200",
+        "items": [
+          "Git",
+          "Jenkins",
+          "Azure DevOps",
+          "Docker",
+          "AWS",
+          "Linux / Unix"
+        ]
+      }
+    ]
+  },
+  "www": {
+    "windowLabel": "WEBWORLDWIDE.ONLINE",
+    "globeCaption": "WEB WORLD WIDE",
+    "tagline": "My world on the web.",
+    "links": [
+      {
+        "label": "THE SITE",
+        "sub": "webworldwide.online →",
+        "href": "https://webworldwide.online/"
+      },
+      {
+        "label": "THE BLOG",
+        "sub": "/blog →",
+        "href": "https://webworldwide.online/blog/"
+      },
+      {
+        "label": "THE CHANNEL",
+        "sub": "@web_world_wide →",
+        "href": "https://www.youtube.com/@web_world_wide"
+      },
+      {
+        "label": "THE SOURCE",
+        "sub": "/WebWorldWide →",
+        "href": "https://github.com/WebWorldWide"
+      }
+    ]
+  },
+  "history": [
+    {
+      "label": "WORK",
+      "accent": "var(--green)",
+      "entries": [
+        {
+          "org": "Accenture Federal Services",
+          "period": "SEP 2025 — PRESENT",
+          "role": "APPLICATION DEVELOPER",
+          "current": true,
+          "location": "ST. LOUIS, MO",
+          "bullets": [
+            "Engineer scalable Scala backend services modernizing mission-critical healthcare infrastructure for the Centers for Medicare & Medicaid Services.",
+            "Orchestrate secure CI/CD pipelines that automate testing and deployment, holding to Section 508 compliance and federal security standards.",
+            "Optimize high-volume data processing on an Agile team, with rigorous code review and functional programming practice."
+          ],
+          "tags": [
+            "SCALA",
+            "FUNCTIONAL PROGRAMMING",
+            "CI/CD",
+            "AGILE"
+          ]
+        },
+        {
+          "org": "St. Charles County",
+          "period": "JUN — AUG 2025",
+          "role": "WIRELESS COMMUNICATIONS / NETWORK SPECIALIST I",
+          "location": "ST. CHARLES, MO",
+          "bullets": [
+            "Held 99.9% uptime on the P25 radio, microwave and LAN/WAN systems carrying county-wide public safety and emergency response traffic.",
+            "Diagnosed hardware faults with RF analysis tools and ran the preventative maintenance that kept downtime off the board.",
+            "Coordinated vendors and first responders to deploy resilient comms infrastructure under strict regulatory protocol."
+          ],
+          "tags": [
+            "P25 RADIO",
+            "RF ANALYSIS",
+            "MICROWAVE",
+            "LAN / WAN"
+          ]
+        },
+        {
+          "org": "J.B. Hunt Transport Services",
+          "period": "MAY 2023 — JUL 2024",
+          "role": "APPLICATION DEVELOPMENT INTERN",
+          "location": "FAYETTEVILLE, AR",
+          "bullets": [
+            "Architected a real-time Location Panel in TypeScript and Angular, wired into CI/CD, giving dispatch live shipment tracking visibility.",
+            "Led the Design Systems team: reusable Storybook (CSF3) components and enforced accessibility standards across the internal UI library.",
+            "Drove the unit testing push with Karma to raise coverage, and ran the daily Agile ceremonies."
+          ],
+          "tags": [
+            "TYPESCRIPT",
+            "ANGULAR",
+            "STORYBOOK",
+            "KARMA",
+            "CI/CD"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "LEADERSHIP",
+      "accent": "#f2c200",
+      "entries": [
+        {
+          "org": "Missouri S&T ACM",
+          "period": "JAN 2023 — MAY 2024",
+          "role": "PRESIDENT",
+          "location": "ROLLA, MO",
+          "marker": true,
+          "bullets": [
+            "Directed a large student chapter, overseeing nine sub-organizations and the resources behind events, servers and the student storefront.",
+            "Secured and allocated over $18,000 to deploy high-performance AI development servers, opening compute access to the whole student body.",
+            "Ran major events including the MegaMiner AI coding competition."
+          ],
+          "tags": [
+            "9 SUB-ORGS",
+            "$18,000+ SECURED",
+            "MEGAMINER"
+          ]
+        },
+        {
+          "org": "Missouri S&T ACM",
+          "period": "MAY — DEC 2022",
+          "role": "VICE PRESIDENT, EXTERNAL",
+          "location": "ROLLA, MO",
+          "bullets": [
+            "Cultivated partnerships with six corporate sponsors, securing financial backing and organizing the professional networking events around them.",
+            "Ran event logistics and scheduling as the primary liaison between the chapter and corporate representatives."
+          ],
+          "tags": [
+            "6 SPONSORS",
+            "PARTNERSHIPS",
+            "EVENTS"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "EDUCATION",
+      "accent": "#5aa9d6",
+      "entries": [
+        {
+          "org": "Missouri University of Science & Technology",
+          "period": "DEC 2024",
+          "role": "B.S. COMPUTER SCIENCE & COMPUTER ENGINEERING",
+          "location": "ROLLA, MO",
+          "marker": true,
+          "bullets": [
+            "Minor in Mathematics. GPA 3.33 / 4.0."
+          ],
+          "tags": []
+        }
+      ]
+    }
+  ],
+  "classic": {
+    "title": "Adam Nolle",
+    "heading": "Adam Nolle",
+    "canvasAlt": "Bouncing JavaScript, C++, HTML, CSS, Linux and 3D-printing logos drifting around a photo of Adam.",
+    "backLabel": "BACK TO THE NEW SITE",
+    "backHref": "/",
+    "nav": [
+      {
+        "label": "Home",
+        "href": "/classic/"
+      },
+      {
+        "label": "Blog",
+        "href": "https://webworldwide.online/blog/"
+      },
+      {
+        "label": "About Me",
+        "href": "/classic/about.html"
+      },
+      {
+        "label": "YouTube",
+        "href": "https://www.youtube.com/@web_world_wide",
+        "icon": "youtube"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/AdamNolle",
+        "icon": "github",
+        "iconOnly": true
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/adam-nolle/",
+        "icon": "linkedin",
+        "iconOnly": true
+      }
+    ],
+    "bouncing": {
+      "background": [
+        9,
+        5,
+        34
+      ],
+      "speed": 5,
+      "logos": [
+        "/media/js.png",
+        "/media/cpp.png",
+        "/media/html.png",
+        "/media/css.png",
+        "/media/tux.png",
+        "/media/printing.png"
+      ],
+      "portrait": "/media/adam.png"
+    },
+    "about": {
+      "title": "Adam Nolle — About Me",
+      "cards": [
+        {
+          "tone": "success",
+          "title": "Hey! 👋",
+          "body": [
+            "Thanks for taking the time to check out my website and learn a little about me. So first let me introduce myself. My name is Adam Nolle. I am a graduate of Missouri University of Science and Technology (or Missouri S&T). I have a B.S. in Computer Science and Computer Engineering with a Minor in Mathematics. From January 2023 to May I was the President of my school's ACM (Association for Computing Machinery) chapter. In my time as President, I brought back our annual MegaMiner event, helped to renovate the second floor CS lounge in our school's Computer Science building, and more!",
+            "I currently work at Accenture Federal Services (AFS) full time!"
+          ]
+        },
+        {
+          "tone": "primary",
+          "title": "(Content) Creator 🎨",
+          "body": [
+            "I love creating things, including digital \"content\" online for people to enjoy and learn from. I put most of my creative time into my YouTube channel and blog (both named Web World Wide) which are linked in the nav bar above! I love talking about things on my mind."
+          ]
+        },
+        {
+          "tone": "info",
+          "title": "Tech Nerd 🤓",
+          "body": [
+            "If it's technology, I am interested. I have a \"Homelab\", a 3D Printer, and have built 6 computers (so far, and no, not just for me). This hobby continues to grow for me which is all I can ask for."
+          ]
+        },
+        {
+          "tone": "link",
+          "title": "Music Enjoyer 🎶",
+          "body": [
+            "I enjoy music as most people do 😅. Recently I have started collecting vinyl and CDs of some of my favorite albums (💸). I think supporting artists and owning your media is really important. Also, have you been to a local record store? It's a ton of fun!",
+            "I also enjoy making beats in FL Studio and Logic, a hobby I picked up over the summer of 2023. I haven't started posting them yet, but if I do, I will be sure to link them here!"
+          ]
+        }
+      ]
+    }
+  },
+  "notFound": {
+    "title": "404 — page not found",
+    "windowLabel": "~/404",
+    "heading": "404",
+    "message": "That page does not exist. It may have moved, or it may never have been here at all.",
+    "links": [
+      {
+        "label": "GO HOME",
+        "href": "/",
+        "variant": "solid"
+      },
+      {
+        "label": "THE CLASSIC SITE",
+        "href": "/classic/",
+        "variant": "outline"
+      }
+    ]
+  }
+}

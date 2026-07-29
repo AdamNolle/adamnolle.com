@@ -1,8 +1,25 @@
+# dependencies + build output
 node_modules
 dist
 dist-ssr
-*.local
+
+# editors
+.vscode/
+.idea/
+*.code-workspace
+
+# OS cruft
 .DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+# logs + local scratch
+*.local
 *.tsbuildinfo
 npm-debug.log*
+yarn-error.log*
+
+# agent tooling
 .claude/
+.tokensave/
