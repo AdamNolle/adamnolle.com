@@ -65,10 +65,12 @@ function renderHeader(d) {
     )
     .join('\n        ')
 
+  // title gives the hover tooltip; aria-label is the accessible name. They are
+  // allowed to differ — the tooltip stays short, the label can be fuller.
   const social = h.social
     .map(
       (s) =>
-        `<a class="iconlink" href="${esc(s.href)}"${extAttrs(s.href)} aria-label="${esc(s.label)}">${icon(s.icon)}</a>`
+        `<a class="iconlink" href="${esc(s.href)}"${extAttrs(s.href)} title="${esc(s.tooltip ?? s.label)}" aria-label="${esc(s.label)}">${icon(s.icon)}</a>`
     )
     .join('\n        ')
 
@@ -98,9 +100,9 @@ function renderHeader(d) {
       <div class="hdr__tools">
         ${social}
         <span class="hair" aria-hidden="true"></span>
-        <a class="iconlink" href="${esc(h.classicLink.href)}" aria-label="${esc(h.classicLink.label)}">${crt}</a>
+        <a class="iconlink" href="${esc(h.classicLink.href)}" title="${esc(h.classicLink.tooltip ?? h.classicLink.label)}" aria-label="${esc(h.classicLink.label)}">${crt}</a>
         <span class="hair" aria-hidden="true"></span>
-        <button class="themebtn" type="button" data-theme-toggle aria-label="${esc(h.themeToggle.toDark)}">
+        <button class="themebtn" type="button" data-theme-toggle title="${esc(h.themeToggle.toDark)}" aria-label="${esc(h.themeToggle.toDark)}">
           <svg class="ico ico--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2a10 10 0 0 0 0 20z" fill="currentColor"/></svg>
         </button>
       </div>

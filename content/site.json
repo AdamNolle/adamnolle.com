@@ -5,7 +5,8 @@
     "projects": "source is required, site is optional. A project with both shows VISIT and SOURCE; one with only source shows SOURCE. status LIVE draws a filled marker, anything else an outline.",
     "hero.windowLabel": "Text in the hero terminal title bar. Leave empty to hide it.",
     "site.tabTitle": "Browser tab text. site.title is the longer form used for link previews.",
-    "history[].entries[]": "current: true tints the role green and fills the timeline marker. marker: true fills it without the tint."
+    "history[].entries[]": "current: true tints the role green and fills the timeline marker. marker: true fills it without the tint.",
+    "header tooltips": "Icon links show tooltip on hover and label to screen readers. Omit tooltip and it falls back to label."
   },
   "site": {
     "lang": "en",
@@ -54,7 +55,8 @@
     ],
     "classicLink": {
       "label": "Visit my classic site",
-      "href": "/classic/"
+      "href": "/classic/",
+      "tooltip": "Classic site"
     },
     "themeToggle": {
       "toDark": "Switch to dark mode",
