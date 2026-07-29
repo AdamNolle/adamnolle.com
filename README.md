@@ -98,11 +98,17 @@ Both are plain lists — add a row and it appears.
 ```bash
 npm install
 npm run dev        # dev server; reloads on content or CSS changes
-npm run build      # typecheck, then render to dist/
+npm run build      # typecheck, render to dist/, then check the output
 npm run preview    # serve dist/ exactly as it will ship
 ```
 
 Two dev dependencies: Vite and TypeScript. That is the whole toolchain.
+
+`npm run build` finishes with `scripts/check-build.mjs`, which walks `dist/` for
+the mistakes a green build still lets through — class typos, dead CSS, broken
+links and anchors, missing images, bad heading order, an `<img>` without `alt`,
+a CDN asset without an integrity hash. It fails the build if it finds any, so a
+broken deploy never leaves your machine. Run it alone with `npm run check`.
 
 ---
 
@@ -111,10 +117,12 @@ Two dev dependencies: Vite and TypeScript. That is the whole toolchain.
 ```
 content/site.json      every string on the site
 scripts/render.mjs     JSON → HTML, pure functions, no dependencies
+scripts/check-build.mjs post-build linter over dist/
 vite.config.ts         the build: renders pages, inlines CSS, writes the CSP
 src/                   stylesheet + the three scripts that ship
 public/                images, favicon, CNAME, the p5 sketch
 classic/               entry pages for the 2022 site
+assets/source/         GIMP files the logo and favicon came from
 ```
 
 The build is a small Vite plugin. For each entry HTML it renders the body from
@@ -137,6 +145,16 @@ below the WCAG AA threshold, no interactive target under 24 × 24 px, no
 horizontal scroll, correct heading order, and an accessible name on every
 control. Project tiles are one click target each without nesting links, and the
 ASCII art is hidden from screen readers behind a real heading.
+
+### On phones
+
+Every hover effect sits behind `@media (hover: hover)`. Touch screens fire
+`:hover` on tap and then hold it until you tap somewhere else, which otherwise
+leaves nav links stuck highlighted and cards frozen mid-lift. Below 620 px the
+header restacks into two deliberate rows instead of wrapping wherever it lands,
+the two hero buttons become one column of identical boxes, and the scanline
+texture stops using a fixed background attachment — iOS repaints the whole layer
+every scroll frame when it is fixed.
 
 ---
 

@@ -87,7 +87,9 @@ function renderHeader(d) {
   // The two groups are `display: contents` on wide screens, so the bar is one
   // flat row exactly as designed. Below 620px they become real rows, which
   // beats letting a dozen flex children wrap wherever they land.
-  return `<header class="hdr">
+  // id="top" is the target of the logo link. Relying on the browser's built-in
+  // "top" fragment fallback works, but only while no element claims that id.
+  return `<header class="hdr" id="top">
     <nav class="hdr__bar" aria-label="Primary">
       <a class="hdr__home" href="#top" aria-label="${esc(h.homeLabel)}">
         <span class="mark" aria-hidden="true"><span class="mark__dash"></span></span>
@@ -290,7 +292,7 @@ function renderWww(d) {
   const links = w.links
     .map(
       (l) => `<a class="wwwlink" href="${esc(l.href)}"${extAttrs(l.href)}>
-              <span class="wwwlink__label">${esc(l.label)}</span>
+              <span>${esc(l.label)}</span>
               <span class="wwwlink__sub">${esc(l.sub)}${newTabNote(l.href)}</span>
             </a>`
     )

@@ -6,11 +6,12 @@
   "description": "Adam Nolle's portfolio — a terminal-styled static site rendered from content/site.json, plus the original 2022 site at /classic/.",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && node scripts/check-build.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "assets:optimize": "node scripts/resize-png.mjs public/media/logos/*.png",
-    "assets:verify": "node scripts/verify-png.mjs public/media/logos/*.png public/media/*.png"
+    "assets:verify": "node scripts/verify-png.mjs public/media/logos/*.png public/media/*.png",
+    "check": "node scripts/check-build.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",

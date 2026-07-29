@@ -30,8 +30,28 @@ export function startGlobe(cv: HTMLCanvasElement): Stop {
     cv.height = Math.round(w * dpr)
   }
 
-  const accent = () =>
-    getComputedStyle(document.documentElement).getPropertyValue('--green').trim() || '#00ff00'
+  // Reading a custom property forces a style resolve, so it is cached rather
+  // than fetched on every frame. The cache is dropped whenever the theme could
+  // have changed.
+  let accentCache: string | null = null
+  const accent = () => {
+    if (accentCache === null) {
+      accentCache =
+        getComputedStyle(document.documentElement).getPropertyValue('--green').trim() || '#00ff00'
+    }
+    return accentCache
+  }
+  const dropAccent = () => {
+    accentCache = null
+  }
+
+  const themeWatcher = new MutationObserver(dropAccent)
+  themeWatcher.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme'],
+  })
+  const schemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  schemeQuery.addEventListener('change', dropAccent)
 
   const project = (lat: number, lon: number): [number, number, number] => {
     const cl = Math.cos(lat)
@@ -164,6 +184,8 @@ export function startGlobe(cv: HTMLCanvasElement): Stop {
     stopped = true
     pause()
     io.disconnect()
+    themeWatcher.disconnect()
+    schemeQuery.removeEventListener('change', dropAccent)
     window.removeEventListener('resize', onResize)
     document.removeEventListener('visibilitychange', sync)
   }
