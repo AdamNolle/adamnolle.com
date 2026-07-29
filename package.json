@@ -1,0 +1,20 @@
+{
+  "name": "adamnolle-com",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Adam Nolle's portfolio — a terminal-styled static site rendered from content/site.json, plus the original 2022 site at /classic/.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "assets:optimize": "node scripts/resize-png.mjs public/media/logos/*.png",
+    "assets:verify": "node scripts/verify-png.mjs public/media/logos/*.png public/media/*.png"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^5.7.0",
+    "vite": "^8.0.0"
+  }
+}

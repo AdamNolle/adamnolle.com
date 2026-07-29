@@ -1,0 +1,1280 @@
+/* ==========================================================================
+   adamnolle.com — terminal / neo-brutalist portfolio
+
+   Ported from the Claude Design source, which carried every rule as an inline
+   `style` attribute plus a non-standard `style-hover` attribute. Values are
+   preserved; the few deliberate deviations are marked WCAG below.
+   ========================================================================== */
+
+:root {
+  --bg: #f0f0f0;
+  --card: #ffffff;
+  --ink: #000000;
+  --green: #00ff00;
+  /* WCAG 1.4.3: the design's oklch(0.55 0.17 142) measures ~4.2:1 on white.
+     Darkened until it clears 4.5:1 against both --card and --bg. */
+  --green-ink: oklch(0.5 0.152 142);
+  --red: #ff3333;
+  --soft: rgba(0, 0, 0, 0.58);
+  --hair: rgba(0, 0, 0, 0.25);
+  --shade: rgba(0, 0, 0, 0.22);
+  --texture: rgba(0, 0, 0, 0.028);
+  --mark-bg: #000000;
+  --mark-dash: #00ff00;
+  --screen: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #070707;
+    --card: #141414;
+    --ink: #e6e6e6;
+    --green-ink: #00ff00;
+    --soft: rgba(230, 230, 230, 0.62);
+    --hair: rgba(230, 230, 230, 0.3);
+    --shade: rgba(0, 255, 0, 0.22);
+    --texture: rgba(255, 255, 255, 0.032);
+    --mark-bg: #00ff00;
+    --mark-dash: #000000;
+    --screen: #000000;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #070707;
+  --card: #141414;
+  --ink: #e6e6e6;
+  --green-ink: #00ff00;
+  --soft: rgba(230, 230, 230, 0.62);
+  --hair: rgba(230, 230, 230, 0.3);
+  --shade: rgba(0, 255, 0, 0.22);
+  --texture: rgba(255, 255, 255, 0.032);
+  --mark-bg: #00ff00;
+  --mark-dash: #000000;
+  --screen: #000000;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--texture) 0px,
+    var(--texture) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  background-attachment: fixed;
+  background-repeat: repeat;
+  color: var(--ink);
+  font-family: 'Courier New', Courier, monospace;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.25s linear,
+    color 0.25s linear;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--green-ink);
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+p,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  font: inherit;
+}
+
+/* Focus ring. On green surfaces the ring switches to ink so it stays visible. */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--green-ink);
+  outline-offset: 3px;
+}
+
+.cta--solid:focus-visible,
+.navlink:focus-visible,
+.iconlink:focus-visible,
+.themebtn:focus-visible,
+.chip:focus-visible {
+  outline-color: var(--ink);
+}
+
+.win--hero a:focus-visible,
+.win--www a:focus-visible {
+  outline-color: var(--green);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 100;
+  transform: translate(-50%, -140%);
+  background: var(--card);
+  color: var(--ink);
+  border: 4px solid var(--ink);
+  padding: 12px 18px;
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  transition: transform 0.15s ease;
+}
+
+.skip:focus {
+  transform: translate(-50%, 12px);
+}
+
+/* ------------------------------------------------------------------ header */
+
+.hdr {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 14px clamp(12px, 3vw, 20px);
+  pointer-events: none;
+}
+
+.hdr__bar {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  background: var(--card);
+  border: 4px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shade);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.4vw, 16px);
+  flex-wrap: wrap;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.hdr__home {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 4px;
+}
+
+/* Grouping wrappers exist only so the header can restack on small screens.
+   On wide screens they vanish and the bar is one flat flex row. */
+.hdr__links,
+.hdr__tools {
+  display: contents;
+}
+
+.mark {
+  width: 26px;
+  height: 26px;
+  background: var(--mark-bg);
+  position: relative;
+  flex-shrink: 0;
+  display: block;
+}
+
+.mark__dash {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  right: 3px;
+  height: 5px;
+  background: var(--mark-dash);
+  display: block;
+}
+
+.hair {
+  width: 2px;
+  height: 20px;
+  background: var(--hair);
+  display: block;
+  flex-shrink: 0;
+}
+
+/* WCAG 2.5.8: the design's 4px/6px padding gave a ~20px target. These are
+   sized to a 24x24 minimum without moving the bar's visual rhythm. */
+.navlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  font-size: 0.72rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  padding: 5px 7px;
+}
+
+.iconlink,
+.themebtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 24px;
+  padding: 5px;
+  flex-shrink: 0;
+}
+
+.themebtn {
+  background: none;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.navlink:hover,
+.iconlink:hover,
+.themebtn:hover {
+  background: var(--green);
+  color: #000000;
+}
+
+.ico {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+  display: block;
+}
+
+.ico--crt {
+  width: 21px;
+  height: 21px;
+  fill: none;
+}
+
+.ico--sm {
+  width: 15px;
+  height: 15px;
+}
+
+/* -------------------------------------------------------------------- shell */
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 28px);
+}
+
+.wrap--center {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.sec {
+  padding: clamp(48px, 8vw, 100px) 0 0 0;
+  scroll-margin-top: 110px;
+}
+
+#work {
+  padding-top: clamp(30px, 5vw, 60px);
+}
+
+.tailspace {
+  height: clamp(40px, 7vw, 80px);
+}
+
+/* --------------------------------------------------------- terminal window */
+
+.win {
+  background: var(--screen);
+  border: 4px solid var(--ink);
+}
+
+.win--hero {
+  position: relative;
+  z-index: 1;
+  box-shadow: 10px 10px 0 var(--shade);
+}
+
+.win__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 12px 0 12px;
+}
+
+.win--hero .win__bar {
+  padding: 13px 15px 0 15px;
+}
+
+.win__led {
+  width: 12px;
+  height: 10px;
+  background: var(--green);
+  flex-shrink: 0;
+  display: block;
+}
+
+.win__led--green {
+  background: var(--green);
+}
+
+.win__dashes {
+  flex-grow: 1;
+  height: 10px;
+  display: block;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #5f5f5f 0px,
+    #5f5f5f 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.win__dashes--ink {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0px,
+    var(--ink) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.win__dashes--pale {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #e0e0e0 0px,
+    #e0e0e0 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.win__label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  color: #8f8f8f;
+  white-space: nowrap;
+}
+
+.panel .win__label,
+.chips .win__label {
+  color: var(--soft);
+}
+
+.win__label--green {
+  color: var(--green);
+}
+
+.win__body {
+  padding: clamp(14px, 2.2vw, 22px);
+}
+
+/* --------------------------------------------------------------------- hero */
+
+.hero {
+  padding: clamp(20px, 4vw, 44px) 0 clamp(30px, 5vw, 50px) 0;
+}
+
+.hero__ascii {
+  margin: 0;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--green);
+  text-shadow: 0 0 13px rgba(0, 255, 0, 0.28);
+  white-space: pre;
+  overflow: hidden;
+  min-height: clamp(180px, 30vw, 360px);
+}
+
+.hero__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: clamp(14px, 2vw, 20px);
+}
+
+/* Shown by the hero script only in the narrow layout, where the ASCII
+   wordmark is dropped in favour of the globe. */
+.hero__name {
+  display: none;
+  font-size: clamp(1.35rem, 6.2vw, 1.8rem);
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  color: #e8e8e8;
+}
+
+.hero__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: clamp(0.82rem, 1.25vw, 0.95rem);
+  font-weight: bold;
+  letter-spacing: 0.07em;
+  line-height: 1.45;
+  color: var(--green);
+}
+
+.hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: clamp(18px, 2.6vw, 26px);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.cta--solid {
+  background: var(--green);
+  color: #000000;
+  padding: 14px 26px;
+}
+
+.cta--solid:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 5px 5px 0 #ffffff;
+  color: #000000;
+}
+
+.cta--outline {
+  border: 3px solid #e0e0e0;
+  color: #e0e0e0;
+  padding: 11px 24px;
+}
+
+.cta--outline:hover {
+  transform: translate(-3px, -3px);
+  background: var(--green);
+  border-color: var(--green);
+  color: #000000;
+}
+
+/* --------------------------------------------------------- section heading */
+
+.shead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(22px, 3vw, 34px);
+}
+
+.shead__num {
+  background: var(--screen);
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  padding: 5px 9px;
+  flex-shrink: 0;
+}
+
+.shead__title {
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+.shead__rule {
+  flex-grow: 1;
+  height: 10px;
+  display: block;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0px,
+    var(--ink) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* ----------------------------------------------------------------- projects */
+
+.grid {
+  display: grid;
+}
+
+.grid--projects {
+  grid-template-columns: repeat(auto-fit, minmax(min(292px, 100%), 1fr));
+  gap: clamp(18px, 2.5vw, 26px);
+}
+
+.card {
+  position: relative;
+  background: var(--card);
+  border: 4px solid var(--ink);
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--card-shadow, var(--shade));
+}
+
+/* The title link stretches over the whole tile, so the card is one big
+   target. The source link sits above it and stays separately clickable. */
+.card__primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.card__primary:hover {
+  color: inherit;
+}
+
+.card__action--src {
+  position: relative;
+  z-index: 1;
+}
+
+.card__action--src:hover {
+  background: var(--green);
+  color: #000000;
+}
+
+.card__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 12px 0 12px;
+}
+
+.card__led {
+  width: 12px;
+  height: 10px;
+  background: var(--a);
+  flex-shrink: 0;
+  display: block;
+}
+
+.card__dashes {
+  flex-grow: 1;
+  height: 10px;
+  display: block;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--a) 0px,
+    var(--a) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* Unfinished projects get a hollow LED and a fainter rule. */
+.card--wip .card__led {
+  background: none;
+  border: 2px solid var(--a);
+}
+
+.card--wip .card__dashes {
+  opacity: 0.55;
+}
+
+.card__body {
+  padding: 18px 20px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex-grow: 1;
+}
+
+.card__top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.card__logo {
+  width: 54px;
+  height: 54px;
+  border: 2px solid var(--ink);
+  padding: 4px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.card__logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card__logo--grid {
+  padding: 3px;
+  background: #000000;
+}
+
+.habit {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+}
+
+.habit span {
+  background: var(--green);
+}
+
+.card__logo--dot {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__logo--dot span {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: block;
+}
+
+.card__id {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* line-height carries the title link to a 24px target (WCAG 2.5.8). */
+.card__name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1.25;
+}
+
+.card__kind {
+  font-size: 0.68rem;
+  font-weight: bold;
+  letter-spacing: 0.14em;
+  color: var(--soft);
+}
+
+.card__desc {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.88rem;
+  font-weight: bold;
+  line-height: 1.68;
+  flex-grow: 1;
+  text-wrap: pretty;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  font-size: 0.66rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.tag {
+  border: 1px solid var(--hair);
+  padding: 4px 8px;
+}
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--hair);
+  padding-top: 12px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+}
+
+.card__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 8px;
+  background: var(--a);
+  display: block;
+  flex-shrink: 0;
+}
+
+.card--wip .dot {
+  background: none;
+  border: 2px solid var(--a);
+}
+
+.card__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-right: -6px;
+}
+
+.card__action {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 6px;
+  white-space: nowrap;
+}
+
+/* Separator between VISIT and SOURCE when a card offers both. */
+.card__action + .card__action::before {
+  content: '';
+  width: 1px;
+  height: 11px;
+  background: var(--hair);
+  margin-right: 8px;
+}
+
+/* ------------------------------------------------------------------ profile */
+
+.profile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(18px, 3vw, 28px);
+  align-items: start;
+}
+
+.panel {
+  background: var(--card);
+  border: 4px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--shade);
+  display: flex;
+  flex-direction: column;
+}
+
+.bio {
+  padding: clamp(26px, 4.5vw, 46px);
+  gap: clamp(16px, 2.4vw, 22px);
+  min-width: 0;
+}
+
+.bio__lead {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+  font-weight: bold;
+  line-height: 1.5;
+  max-width: min(34ch, 100%);
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.inlink {
+  color: var(--green-ink);
+  box-shadow: inset 0 -2px 0 var(--green);
+}
+
+.bio__sub {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(0.86rem, 1.6vw, 0.95rem);
+  font-weight: bold;
+  line-height: 1.68;
+  max-width: min(60ch, 100%);
+  color: var(--soft);
+  text-wrap: pretty;
+}
+
+.meta {
+  padding: 18px 20px 22px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 12px clamp(20px, 3.5vw, 44px);
+  font-size: 0.82rem;
+}
+
+.meta__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px dotted var(--hair);
+  padding-bottom: 10px;
+}
+
+.meta__key {
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--soft);
+}
+
+.meta__val {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* WCAG 2.5.8: negative margin offsets the padding, so the hit area clears
+   24px without moving the text. */
+.metalink {
+  display: inline-block;
+  padding: 5px 6px;
+  margin: -5px -6px;
+}
+
+.metalink:hover {
+  background: var(--green);
+  color: #000000;
+}
+
+.grid--skills {
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: clamp(16px, 2.5vw, 24px);
+  align-items: stretch;
+}
+
+.chips__list {
+  padding: 18px 20px 22px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: bold;
+}
+
+.chip {
+  border: 1px solid var(--ink);
+  padding: 6px 10px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.chip:hover {
+  background: var(--green);
+  color: #000000;
+}
+
+/* ---------------------------------------------------------- web world wide */
+
+.win--www {
+  background: #000000;
+  box-shadow: 12px 12px 0 var(--green);
+  color: #e0e0e0;
+}
+
+.www {
+  padding: clamp(18px, 3vw, 30px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  gap: clamp(20px, 3vw, 34px);
+  align-items: center;
+}
+
+.www__globe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.www__globe canvas {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+}
+
+.www__caption {
+  font-size: clamp(0.72rem, 1.8vw, 0.9rem);
+  font-weight: bold;
+  letter-spacing: 0.32em;
+  color: var(--green);
+  text-align: center;
+}
+
+.www__body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.4vw, 22px);
+}
+
+.www__tagline {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.www__links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+  gap: 10px;
+}
+
+.wwwlink {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  border: 2px solid #e0e0e0;
+  color: #e0e0e0;
+  padding: 12px 14px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  overflow-wrap: anywhere;
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.wwwlink:hover {
+  transform: translate(-3px, -3px);
+  background: var(--green);
+  color: #000000;
+  border-color: var(--green);
+}
+
+.wwwlink__sub {
+  font-size: 0.7rem;
+  opacity: 0.72;
+  font-weight: normal;
+  letter-spacing: 0.04em;
+}
+
+/* ----------------------------------------------------------------- timeline */
+
+.tl {
+  border-left: 4px solid var(--ink);
+  padding-left: clamp(20px, 3vw, 32px);
+  margin-left: 8px;
+  display: grid;
+  gap: clamp(16px, 2.4vw, 22px);
+}
+
+.tl__group {
+  position: relative;
+}
+
+.tl__group + .tl__item + .tl__group,
+.tl__item + .tl__group {
+  margin-top: 10px;
+}
+
+.tl__label {
+  background: var(--screen);
+  font-size: 0.64rem;
+  font-weight: bold;
+  letter-spacing: 0.18em;
+  padding: 5px 10px;
+  display: inline-block;
+}
+
+.tl__item {
+  position: relative;
+}
+
+.tl__marker {
+  position: absolute;
+  left: calc(-1 * clamp(20px, 3vw, 32px) - 10px);
+  top: 6px;
+  width: 16px;
+  height: 14px;
+  background: var(--m);
+  border: 2px solid var(--ink);
+  display: block;
+}
+
+.tl__marker--hollow {
+  background: var(--card);
+}
+
+.tl__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.tl__org {
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+.tl__period {
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--soft);
+  white-space: nowrap;
+}
+
+.tl__sub {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: 5px;
+}
+
+.tl__role {
+  font-size: 0.74rem;
+  font-weight: bold;
+  letter-spacing: 0.14em;
+  color: var(--soft);
+}
+
+.tl__role--now {
+  color: var(--green-ink);
+}
+
+.tl__loc {
+  font-size: 0.68rem;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  color: var(--soft);
+  white-space: nowrap;
+}
+
+.tl__bullets {
+  display: grid;
+  gap: 8px;
+  margin: 11px 0 0 0;
+  max-width: 70ch;
+}
+
+.bul {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.85rem;
+  font-weight: bold;
+  line-height: 1.66;
+  text-wrap: pretty;
+}
+
+.bul__mark {
+  width: 7px;
+  height: 6px;
+  background: var(--ink);
+  margin-top: 10px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.tags--hair {
+  margin-top: 14px;
+  font-size: 0.64rem;
+}
+
+/* --------------------------------------------------------------------- 404 */
+
+.nf__code {
+  font-size: clamp(3rem, 16vw, 7rem);
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: var(--green);
+  text-shadow: 0 0 13px rgba(0, 255, 0, 0.28);
+}
+
+.nf__msg {
+  margin-top: 18px;
+  max-width: 46ch;
+  font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+  font-weight: bold;
+  line-height: 1.6;
+  color: #e0e0e0;
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------------ reveal */
+
+/* Applied by src/main.ts, so with scripting off nothing is ever hidden. */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------------ small screens */
+
+/* ------------------------------------------------------------ mobile header
+
+   Left to wrap, a dozen flex children land in ragged rows. Below 620px the bar
+   becomes an explicit two-row grid instead: mark and tools on top, the four
+   section links spread evenly underneath. */
+
+@media (max-width: 620px) {
+  section[id] {
+    scroll-margin-top: 156px;
+  }
+
+  .hdr {
+    padding: 10px clamp(10px, 3vw, 16px);
+  }
+
+  .hdr__bar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'home tools'
+      'links links';
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  /* The inline separators only make sense in a single row. */
+  .hdr__bar > .hair,
+  .hdr__tools > .hair {
+    display: none;
+  }
+
+  .hdr__home {
+    grid-area: home;
+    padding-right: 0;
+  }
+
+  .hdr__tools {
+    grid-area: tools;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(6px, 2.5vw, 14px);
+  }
+
+  .hdr__links {
+    grid-area: links;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2px;
+    border-top: 2px solid var(--hair);
+    padding-top: 8px;
+  }
+
+  .navlink {
+    letter-spacing: 0.06em;
+    padding: 5px 4px;
+  }
+
+  /* One column of identical buttons reads better than two ragged ones. The
+     outline variant carries a 3px border against the solid one's 0, so its
+     padding is reduced by the same amount to keep both boxes the same size. */
+  .hero__ctas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cta {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 18px;
+  }
+
+  .cta--outline {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .navlink {
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* --------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal-init {
+    opacity: 1;
+    transform: none;
+  }
+}
