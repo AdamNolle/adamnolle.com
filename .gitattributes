@@ -1,0 +1,11 @@
+# Check every text file out with LF, on every platform. The build hashes inline
+# script content for the Content-Security-Policy, so CRLF on one machine and LF
+# on another produce different (still valid, but non-reproducible) output.
+# This also matches end_of_line = lf in .editorconfig.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.xcf binary

@@ -15,7 +15,7 @@ import {
 const root = process.cwd()
 const CONTENT = resolve(root, 'content/site.json')
 
-const read = (p: string) => readFileSync(resolve(root, p), 'utf8')
+const read = (p: string) => readFileSync(resolve(root, p), 'utf8').replace(/\r\n/g, '\n')
 const content = () => JSON.parse(read('content/site.json'))
 const attr = (s: string) => String(s).replace(/"/g, '&quot;')
 
@@ -103,7 +103,10 @@ function siteSSG(): Plugin {
       })
     },
 
-    async transformIndexHtml(html, ctx) {
+    async transformIndexHtml(rawHtml, ctx) {
+      // Normalise line endings before anything hashes or emits the markup, so
+      // a Windows checkout and a Linux runner produce byte-identical output.
+      const html = rawHtml.replace(/\r\n/g, '\n')
       const d = content()
       const page = pageOf(ctx.path)
 
