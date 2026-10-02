@@ -1,0 +1,36 @@
+name: Personal runner preflight
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runner-preflight:
+    name: Personal ${{ matrix.os }} runner
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ${{ matrix.labels }}
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: Linux
+            labels: [self-hosted, Linux, X64, personal-ci]
+    steps:
+      - name: Verify Linux build environment
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$RUNNER_OS" = Linux
+          git --version
+          bash --version | head -1
+          node --version
+          python3 --version
+          gh --version | head -1
+          cmake --version | head -1
