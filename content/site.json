@@ -39,6 +39,10 @@
       {
         "label": "BLOG",
         "href": "https://webworldwide.online/blog/"
+      },
+      {
+        "label": "EMAIL",
+        "href": "mailto:hello@webworldwide.online"
       }
     ],
     "social": [
@@ -558,6 +562,10 @@
         "href": "https://www.linkedin.com/in/adam-nolle/",
         "icon": "linkedin",
         "iconOnly": true
+      },
+      {
+        "label": "Email",
+        "href": "mailto:hello@webworldwide.online"
       }
     ],
     "bouncing": {
