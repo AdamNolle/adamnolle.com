@@ -14,7 +14,10 @@
 // every real frame exactly once (see .globe in src/styles.css).
 //
 //   npm run assets:globe
-import { writeFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { mkdtempSync, rmSync, writeFileSync, statSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { deflateSync } from 'node:zlib'
 
 import { GLOBES } from './render.mjs'
@@ -172,8 +175,17 @@ for (const { src: path, size: N, frames: F } of Object.values(GLOBES)) {
     for (let y = 0; y < N; y++) indices.set(px.subarray(y * N, y * N + N), y * stripW + f * N)
   }
 
+  // Encode as an indexed PNG, then repack it as lossless WebP, which comes
+  // out about 17% smaller with every pixel identical. Needs cwebp
+  // (brew install webp).
   const out = 'public' + path
-  const png = encode(indices, stripW, N)
-  writeFileSync(out, png)
-  console.log(`${out}: ${F} frames of ${N}x${N}, ${stripW}x${N}, ${png.length} bytes`)
+  const dir = mkdtempSync(join(tmpdir(), 'globe-'))
+  try {
+    const png = join(dir, 'globe.png')
+    writeFileSync(png, encode(indices, stripW, N))
+    execFileSync('cwebp', ['-quiet', '-lossless', '-z', '9', '-metadata', 'none', png, '-o', out])
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
+  console.log(`${out}: ${F} frames of ${N}x${N}, ${stripW}x${N}, ${statSync(out).size} bytes`)
 }

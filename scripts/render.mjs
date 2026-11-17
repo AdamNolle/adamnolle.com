@@ -51,8 +51,8 @@ const ICONS = {
  * so the animation cannot drift out of step with the image.
  */
 export const GLOBES = {
-  nav: { src: '/media/www-globe.png', size: 20, frames: 126 },
-  panel: { src: '/media/www-globe-lg.png', size: 64, frames: 201 },
+  nav: { src: '/media/www-globe.webp', size: 20, frames: 126 },
+  panel: { src: '/media/www-globe-lg.webp', size: 64, frames: 201 },
 }
 
 const globe = (g, mod = '') =>

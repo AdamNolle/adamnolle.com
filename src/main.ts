@@ -1,5 +1,5 @@
 /**
- * Page bootstrap: theme, scroll reveal, and lazy start-up for the ASCII hero.
+ * Page bootstrap: theme, scroll reveal, and the ASCII hero.
  * The Web World Wide globes are CSS-only (see scripts/make-www-globe.mjs).
  * Everything below is progressive enhancement — the page is fully
  * rendered and readable before any of this runs.
@@ -7,6 +7,8 @@
  * The stylesheet is not imported here on purpose: the build inlines it into
  * <head> (see vite.config.ts) so styling never waits on JavaScript.
  */
+
+import { startAscii } from './ascii-hero'
 
 const THEME_KEY = 'adamnolle-theme'
 
@@ -94,36 +96,17 @@ function initReveal() {
 
 /* --------------------------------------------------------------- animations */
 
-/**
- * Loads an animation module only once its element is near the viewport, so the
- * initial payload stays tiny and the Earth mask is never fetched on a visit
- * that does not reach the hero.
- */
-function whenNear(el: Element, load: () => void) {
-  if (!('IntersectionObserver' in window)) {
-    load()
-    return
-  }
-  const io = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((e) => e.isIntersecting)) return
-      io.disconnect()
-      load()
-    },
-    { rootMargin: '300px' }
-  )
-  io.observe(el)
-}
-
+// The hero is the first thing on the page, so it ships inside this script and
+// starts at once. Loading it lazily used to cost two extra round trips in a
+// row (this file, then ascii-hero, then the Earth mask) before the globe could
+// draw. startAscii pauses its own loop whenever the hero is off screen.
 function initAnimations() {
   const ascii = document.querySelector<HTMLElement>('[data-ascii]')
   if (ascii) {
     // Words come from content/site.json via a data attribute.
     const words = (ascii.dataset.asciiWords ?? 'ADAM|NOLLE').split('|') as [string, string]
     const nameEl = document.querySelector<HTMLElement>('[data-hero-name]')
-    whenNear(ascii, () => {
-      void import('./ascii-hero').then((m) => m.startAscii(ascii, { words, nameEl }))
-    })
+    startAscii(ascii, { words, nameEl })
   }
 }
 

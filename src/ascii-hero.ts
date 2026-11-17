@@ -8,6 +8,8 @@
  * per frame, so the loop runs at the display's full refresh rate.
  */
 
+import { EARTH } from './earth-mask'
+
 type Stop = () => void
 
 interface Options {
@@ -32,6 +34,7 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
   let wide = true
 
   let artKey = ''
+  let artTimer = 0
   let artA: string[] = []
   let artB: string[] = []
 
@@ -134,7 +137,9 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
     const cv = document.createElement('canvas')
     cv.width = cols * cw
     cv.height = rows * chh
-    const g = cv.getContext('2d')!
+    // Read back once with getImageData: a CPU-backed canvas skips the GPU
+    // round trip that would otherwise make this the slowest step of startup.
+    const g = cv.getContext('2d', { willReadFrequently: true })!
     g.fillStyle = '#000'
     g.fillRect(0, 0, cv.width, cv.height)
     g.fillStyle = '#fff'
@@ -257,7 +262,6 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
 
     // Narrow layout drops the ASCII wordmark, so show the plain name instead.
     if (opts.nameEl) opts.nameEl.style.display = wide ? 'none' : 'block'
-    artKey = ''
     build()
   }
 
@@ -323,10 +327,27 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
       const colsB = Math.max(22, Math.floor(Math.min(limbAt(bTop), limbAt(bTop + rowsEach - 1))) - 3)
       const key = colsA + '/' + colsB + 'x' + rowsEach
 
-      if (key !== artKey) {
-        artA = textArt(opts.words[0], colsA, rowsEach)
-        artB = textArt(opts.words[1], colsB, rowsEach)
-        artKey = key
+      if (key !== artKey && !artTimer) {
+        if (artKey === '') {
+          // First draw: the wordmark needs a canvas and a font, the slowest
+          // step of startup. Show the globe now and set the letters in a task
+          // after the next paint, so they never hold the globe back.
+          artTimer = requestAnimationFrame(() => {
+            artTimer = window.setTimeout(() => {
+              artTimer = 0
+              if (stopped) return
+              artA = textArt(opts.words[0], colsA, rowsEach)
+              artB = textArt(opts.words[1], colsB, rowsEach)
+              artKey = key
+              build()
+              render()
+            })
+          })
+        } else {
+          artA = textArt(opts.words[0], colsA, rowsEach)
+          artB = textArt(opts.words[1], colsB, rowsEach)
+          artKey = key
+        }
       }
 
       const totalH = artA.length + 1 + artB.length
@@ -515,21 +536,18 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
   window.addEventListener('resize', onResize)
   document.addEventListener('visibilitychange', sync)
 
+  // The land mask ships in the same script (3 KB gzipped), so the very first
+  // frame already has continents instead of an empty sphere.
+  const raw = atob(EARTH.bits)
+  const bits = new Uint8Array(raw.length)
+  for (let i = 0; i < raw.length; i++) bits[i] = raw.charCodeAt(i)
+  mask = bits
+  MW = EARTH.w
+  MH = EARTH.h
+  buildDistance()
+
   layout()
   render()
-
-  void import('./earth-mask').then((m) => {
-    if (stopped) return
-    const raw = atob(m.EARTH.bits)
-    const b = new Uint8Array(raw.length)
-    for (let i = 0; i < raw.length; i++) b[i] = raw.charCodeAt(i)
-    mask = b
-    MW = m.EARTH.w
-    MH = m.EARTH.h
-    buildDistance()
-    build()
-    render()
-  })
 
   return () => {
     stopped = true

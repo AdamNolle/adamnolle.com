@@ -12,9 +12,11 @@
         if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t)
       } catch (e) {}
     </script>
+    <!-- In the head so it downloads alongside the HTML; type=module still waits
+         for the document to finish parsing before it runs. -->
+    <script type="module" src="/src/main.ts"></script>
   </head>
   <body>
     <!--@body-->
-    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

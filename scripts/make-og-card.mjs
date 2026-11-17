@@ -41,17 +41,17 @@ async function globeText() {
     disconnect() {}
   }
 
-  // Node needs the extension on the lazy import that Vite resolves itself.
+  // Node needs the extension on the import that Vite resolves itself.
   const dir = mkdtempSync(join(tmpdir(), 'og-'))
   try {
     const src = readFileSync('src/ascii-hero.ts', 'utf8').replace(
-      "import('./earth-mask')",
-      `import(${JSON.stringify(pathToFileURL(resolve('src/earth-mask.ts')).href)})`
+      "from './earth-mask'",
+      `from ${JSON.stringify(pathToFileURL(resolve('src/earth-mask.ts')).href)}`
     )
     writeFileSync(join(dir, 'ascii-hero.ts'), src)
     const { startAscii } = await import(pathToFileURL(join(dir, 'ascii-hero.ts')).href)
 
-    const el = { parentElement: { clientWidth: 520 }, clientWidth: 520, style: {}, textContent: '' }
+    const el = { parentElement: { clientWidth: 520 }, clientWidth: 520, style: {}, textContent: '', closest: () => null }
     const stop = startAscii(el, { words: [wordA, wordB] })
     for (let i = 0; i < 100 && !/[#$@]/.test(el.textContent); i++) {
       await new Promise((r) => setTimeout(r, 20)) // wait for the land mask

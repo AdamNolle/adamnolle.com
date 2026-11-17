@@ -67,7 +67,7 @@ npm run assets:webp -- public/media/logos/your-file.png   # → .webp, ~70% smal
 ```
 
 Reference it as `/media/logos/your-file.webp`. Square images work best.
-`assets:webp` needs `cwebp` (`brew install webp`); the PNG it replaces stays in git.
+`assets:webp` needs `cwebp` (`brew install webp`), as does `assets:globe`; the PNG it replaces stays in git.
 
 ### Regenerate the baked images
 
