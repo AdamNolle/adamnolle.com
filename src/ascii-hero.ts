@@ -234,11 +234,25 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
     W = wide ? target : Math.max(24, Math.min(target, Math.floor(dw / (0.6 * 9))))
     H = wide ? Math.round(W * 0.31) : 2 * Math.round((W / 2 - 1) * 0.6) + 2
 
-    const fs = dw / (W * 0.6)
+    let fs = dw / (W * 0.6)
+
+    // On a short screen (a 1366x768 laptop) the full-width art makes the hero
+    // taller than the window and pushes its buttons below the fold. Shrink the
+    // characters until the whole hero fits, but by no more than about a
+    // quarter, so a landscape phone keeps legible art and simply scrolls.
+    const hero = el.closest<HTMLElement>('.win--hero')
+    if (wide && hero) {
+      const heroBottom = hero.getBoundingClientRect().bottom + window.scrollY
+      const rest = heroBottom - el.getBoundingClientRect().height
+      const room = window.innerHeight - rest - 16
+      fs = Math.min(fs, Math.max(fs * 0.72, room / H))
+    }
+    const fitted = wide && fs < dw / (W * 0.6) - 0.01
+
     el.style.fontSize = fs.toFixed(2) + 'px'
-    el.style.width = wide ? '' : dw + 'px'
-    el.style.marginLeft = wide ? '' : 'auto'
-    el.style.marginRight = wide ? '' : 'auto'
+    el.style.width = !wide ? dw + 'px' : fitted ? (W * 0.6 * fs).toFixed(1) + 'px' : ''
+    el.style.marginLeft = !wide || fitted ? 'auto' : ''
+    el.style.marginRight = !wide || fitted ? 'auto' : ''
     el.style.minHeight = Math.round(H * fs) + 'px'
 
     // Narrow layout drops the ASCII wordmark, so show the plain name instead.

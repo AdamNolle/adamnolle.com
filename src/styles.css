@@ -340,6 +340,35 @@ button:focus-visible {
   }
 }
 
+/* ------------------------------------------------------------- big screens
+
+   The layout is a 1080px column, which reads well up to 1080p but leaves a
+   1440p, ultrawide or 4K-at-100% monitor mostly empty. These scale the whole
+   page uniformly instead of stretching it, so the 3x3 project grid and the
+   hero keep their proportions. Each tier needs height as well as width: a
+   5120x1440 super-ultrawide is no taller than an ordinary 1440p screen, and
+   scaling it by width alone would push the hero past the bottom of the screen.
+   The steps are chosen so the section globe lands on whole device pixels
+   (256px x 1.25 = 320 = 5 per globe pixel; x 1.5 = 384 = 6; x 2 = 512 = 8). */
+
+@media (min-width: 2200px) and (min-height: 1250px) {
+  html {
+    zoom: 1.25;
+  }
+}
+
+@media (min-width: 3000px) and (min-height: 1900px) {
+  html {
+    zoom: 1.5;
+  }
+}
+
+@media (min-width: 4400px) and (min-height: 2500px) {
+  html {
+    zoom: 2;
+  }
+}
+
 /* -------------------------------------------------------------------- shell */
 
 .wrap {
@@ -792,7 +821,9 @@ button:focus-visible {
 
 .profile {
   display: grid;
-  grid-template-columns: 1fr;
+  /* minmax(0, 1fr), not 1fr: a plain 1fr track grows to fit its widest
+     unbreakable content, which pushed the page wider than a 320px phone. */
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(18px, 3vw, 28px);
   align-items: start;
 }
@@ -844,10 +875,13 @@ button:focus-visible {
   font-size: 0.82rem;
 }
 
+/* On a narrow screen a long value (the email address) drops below its key
+   instead of overflowing; it only breaks mid-word if even that is too wide. */
 .meta__row {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  gap: 14px;
+  gap: 4px 14px;
   border-bottom: 1px dotted var(--hair);
   padding-bottom: 10px;
 }
@@ -859,8 +893,11 @@ button:focus-visible {
 }
 
 .meta__val {
+  margin-left: auto;
+  min-width: 0;
   text-align: right;
   font-weight: bold;
+  overflow-wrap: anywhere;
 }
 
 /* WCAG 2.5.8: negative margin offsets the padding, so the hit area clears
@@ -1200,11 +1237,13 @@ button:focus-visible {
 
 /* ------------------------------------------------------------ mobile header
 
-   Left to wrap, a dozen flex children land in ragged rows. Below 620px the bar
+   Left to wrap, a dozen flex children land in ragged rows. Below 720px the bar
    becomes an explicit two-row grid instead: mark and tools on top, the four
    section links spread evenly underneath. */
 
-@media (max-width: 620px) {
+/* The one-row bar needs about 680px with the system monospace face; 720
+   leaves room for fallback fonts that set a little wider. */
+@media (max-width: 720px) {
   section[id] {
     scroll-margin-top: 156px;
   }

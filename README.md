@@ -173,7 +173,7 @@ ASCII art is hidden from screen readers behind a real heading.
 
 Every hover effect sits behind `@media (hover: hover)`. Touch screens fire
 `:hover` on tap and then hold it until you tap somewhere else, which otherwise
-leaves nav links stuck highlighted and cards frozen mid-lift. Below 620 px the
+leaves nav links stuck highlighted and cards frozen mid-lift. Below 720 px the
 header restacks into two deliberate rows instead of wrapping wherever it lands,
 and the two hero buttons become one column of identical boxes.
 
