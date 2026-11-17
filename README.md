@@ -77,7 +77,7 @@ build never needs these tools — rerun one only when its inputs change.
 | Command | Makes | Rerun when |
 | --- | --- | --- |
 | `npm run assets:globe` | the spinning pixel globes (header + Web World Wide), from webworldwide.online's map in `scripts/world-map.mjs` | you change `GLOBES` in `scripts/render.mjs` |
-| `npm run assets:og` | `og-card.png`, the 1200×630 link preview, sized to stay legible as a phone-sized text-message preview | `hero.asciiWords`, the first of `hero.lines`, or `site.url` change (needs ImageMagick). The build versions its URL by content hash, so apps that cache previews pick up the new one |
+| `npm run assets:og` | `og-card.png`, the 1200×630 link preview: your name in Instrument Serif beside the ASCII Earth, laid out to survive phone-sized, edge-cropped previews. Fonts are in `assets/fonts` (SIL OFL) and never ship | `hero.asciiWords`, the first of `hero.lines`, or `site.url` change (needs ImageMagick). The build versions its URL by content hash, so apps that cache previews pick up the new one |
 
 The favicon is `public/favicon.svg`, the header mark drawn in SVG; it flips
 colours with the system theme just as the mark does. `favicon.png`,
@@ -136,6 +136,7 @@ src/                   stylesheet + the two scripts that ship
 public/                images, favicons, CNAME, the p5 sketch
 classic/               entry pages for the 2022 site
 assets/source/         GIMP files and the full-size portrait
+assets/fonts/          typefaces for the share card (build input only)
 ```
 
 The build is a small Vite plugin. For each entry HTML it renders the body from
