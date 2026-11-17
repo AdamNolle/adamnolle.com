@@ -197,6 +197,40 @@
       ]
     },
     {
+      "name": "Anchor",
+      "kind": "BROWSER EXTENSION",
+      "source": "https://github.com/WebWorldWide/Anchor",
+      "status": "LIVE",
+      "accent": "#8a8a8a",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/anchor.webp"
+      },
+      "description": "Paused should mean paused. Holds a video you paused until you press play, so ads ending, streams reconnecting and scripted restarts cannot resume it, while next episodes and autoplay keep working.",
+      "tags": [
+        "JAVASCRIPT",
+        "MANIFEST V3",
+        "CHROMIUM"
+      ]
+    },
+    {
+      "name": "Watched Blocked",
+      "kind": "BROWSER EXTENSION",
+      "source": "https://github.com/WebWorldWide/watched-blocked",
+      "status": "LIVE",
+      "accent": "#e00000",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/watched-blocked.webp"
+      },
+      "description": "Hides YouTube videos you've already watched from the home page, sidebar, search and playlists, while channel pages, Subscriptions and History still show everything.",
+      "tags": [
+        "JAVASCRIPT",
+        "MANIFEST V3",
+        "CHROMIUM"
+      ]
+    },
+    {
       "name": "Guitar Tutor",
       "kind": "WEB APP · PWA",
       "site": "https://adamnolle.github.io/Guitar-Tutor/",
@@ -231,40 +265,6 @@
         "TYPESCRIPT",
         "VITE",
         "PWA"
-      ]
-    },
-    {
-      "name": "Watched Blocked",
-      "kind": "BROWSER EXTENSION",
-      "source": "https://github.com/AdamNolle/watched-blocked",
-      "status": "LIVE",
-      "accent": "#e00000",
-      "logo": {
-        "type": "image",
-        "src": "/media/logos/watched-blocked.webp"
-      },
-      "description": "Hides YouTube videos you've already watched from the home page, sidebar, search and playlists, while channel pages, Subscriptions and History still show everything.",
-      "tags": [
-        "JAVASCRIPT",
-        "MANIFEST V3",
-        "CHROMIUM"
-      ]
-    },
-    {
-      "name": "Anchor",
-      "kind": "BROWSER EXTENSION",
-      "source": "https://github.com/AdamNolle/Anchor",
-      "status": "LIVE",
-      "accent": "#8a8a8a",
-      "logo": {
-        "type": "image",
-        "src": "/media/logos/anchor.webp"
-      },
-      "description": "Paused should mean paused. Holds a video you paused until you press play, so ads ending, streams reconnecting and scripted restarts cannot resume it, while next episodes and autoplay keep working.",
-      "tags": [
-        "JAVASCRIPT",
-        "MANIFEST V3",
-        "CHROMIUM"
       ]
     },
     {
@@ -509,6 +509,24 @@
               ],
               "bullets": [
                 "Queries arXiv, OpenAlex, Semantic Scholar, Europe PMC, Internet Archive, DOAJ, Zenodo and Project Gutenberg at once, plus a built-in web meta-search."
+              ]
+            },
+            {
+              "name": "Anchor",
+              "href": "https://github.com/WebWorldWide/Anchor",
+              "what": "Browser extension that keeps a paused video paused until you press play.",
+              "tags": [
+                "JAVASCRIPT",
+                "MANIFEST V3"
+              ]
+            },
+            {
+              "name": "Watched Blocked",
+              "href": "https://github.com/WebWorldWide/watched-blocked",
+              "what": "Browser extension that hides YouTube videos you have already watched.",
+              "tags": [
+                "JAVASCRIPT",
+                "MANIFEST V3"
               ]
             }
           ]
