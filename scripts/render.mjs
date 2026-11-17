@@ -42,8 +42,35 @@ const ICONS = {
     '<path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>',
 }
 
+/**
+ * The Web World Wide globes: strips of pre-rendered frames that CSS steps
+ * through (scripts/make-www-globe.mjs bakes them from these same numbers).
+ * One frame per pixel of travel at the equator, so each step moves the
+ * surface exactly one globe pixel. The panel globe matches the 64-pixel hero
+ * globe on webworldwide.online. The frame count travels as a custom property
+ * so the animation cannot drift out of step with the image.
+ */
+export const GLOBES = {
+  nav: { src: '/media/www-globe.png', size: 20, frames: 126 },
+  panel: { src: '/media/www-globe-lg.png', size: 64, frames: 201 },
+}
+
+const globe = (g, mod = '') =>
+  `<span class="globe${mod}" style="--frames:${g.frames};background-image:url(${g.src})" aria-hidden="true"></span>`
+
+// The Nolle Studios mark, as published in public/nolle-studios-mark.svg on
+// nollestudios.com: a black square with blue, green and red quadrants.
+const studioMark =
+  '<svg class="ico ico--studio" viewBox="0 0 16 16" aria-hidden="true" focusable="false" shape-rendering="crispEdges">' +
+  '<rect width="16" height="16" fill="#000"/><path fill="#2a35ff" d="M8 0h8v8H8z"/>' +
+  '<path fill="#5ef50d" d="M0 8h8v8H0z"/><path fill="#ff1818" d="M8 8h8v8H8z"/></svg>'
+
 const icon = (name) =>
-  `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS[name] ?? ''}</svg>`
+  name === 'www-globe'
+    ? globe(GLOBES.nav)
+    : name === 'nolle-studios'
+      ? studioMark
+      : `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${ICONS[name] ?? ''}</svg>`
 
 /* ------------------------------------------------------------------ header */
 
@@ -154,13 +181,6 @@ function sectionHead(s, id) {
 
 function projectLogo(p) {
   const l = p.logo ?? {}
-  if (l.type === 'habitGrid') {
-    const cells = (l.cells ?? []).map((v) => `<span style="opacity:${Number(v)}"></span>`).join('')
-    return `<div class="card__logo card__logo--grid" aria-hidden="true"><span class="habit">${cells}</span></div>`
-  }
-  if (l.type === 'dot') {
-    return `<div class="card__logo card__logo--dot" style="background:${esc(l.bg)}" aria-hidden="true"><span></span></div>`
-  }
   return `<div class="card__logo" aria-hidden="true"><img src="${esc(l.src)}" alt="" width="108" height="108" loading="lazy" decoding="async"></div>`
 }
 
@@ -299,7 +319,7 @@ function renderWww(d) {
       </div>
       <div class="www">
         <div class="www__globe">
-          <canvas data-globe aria-hidden="true" width="220" height="220"></canvas>
+          ${globe(GLOBES.panel, ' globe--panel')}
           <p class="www__caption">${esc(w.globeCaption)}</p>
         </div>
         <div class="www__body">
@@ -314,6 +334,43 @@ function renderWww(d) {
 }
 
 /* ----------------------------------------------------------------- history */
+
+/**
+ * Projects inside a role (entry.projects), each with its own one-liner,
+ * stack and bullets. entry.projectsLabel heads the list. A project with an
+ * href links its name; one without (internal tools) is plain text.
+ */
+function projects(e, accent) {
+  if (!e.projects?.length) return ''
+  const items = e.projects
+    .map((p) => {
+      const name = p.href ? `<a class="metalink" href="${esc(p.href)}">${esc(p.name)} →</a>` : esc(p.name)
+      const bullets = (p.bullets ?? [])
+        .map((b) => `<li class="bul"><span class="bul__mark" aria-hidden="true"></span><span>${esc(b)}</span></li>`)
+        .join('\n                  ')
+      return `<div class="proj">
+                <div class="proj__head">
+                  <h4 class="proj__name">${name}</h4>
+                  <ul class="tags tags--hair proj__tags">${(p.tags ?? []).map((t) => `<li class="tag">${esc(t)}</li>`).join('')}</ul>
+                </div>
+                <p class="proj__what">${esc(p.what)}</p>${
+                  bullets
+                    ? `
+                <ul class="tl__bullets">
+                  ${bullets}
+                </ul>`
+                    : ''
+                }
+              </div>`
+    })
+    .join('\n              ')
+
+  return `
+            <div class="projs" style="--m:${esc(accent)}">
+              <span class="projs__label">${esc(e.projectsLabel ?? 'PROJECTS')}</span>
+              ${items}
+            </div>`
+}
 
 function renderHistory(d) {
   const groups = d.history
@@ -346,7 +403,7 @@ function renderHistory(d) {
             <ul class="tl__bullets">
               ${bullets}
             </ul>
-            ${tags}
+            ${tags}${projects(e, g.accent)}
           </div>`
         })
         .join('\n\n          ')
@@ -355,8 +412,8 @@ function renderHistory(d) {
     })
     .join('\n\n          ')
 
-  return `<section id="history" class="sec" aria-labelledby="history-title">
-    ${sectionHead(d.sections.history, 'history')}
+  return `<section id="resume" class="sec" aria-labelledby="resume-title">
+    ${sectionHead(d.sections.history, 'resume')}
     <div class="tl">
       ${groups}
     </div>
@@ -365,11 +422,20 @@ function renderHistory(d) {
 
 /* -------------------------------------------------------------- full pages */
 
-export function renderHead(d, { title, description } = {}) {
+/**
+ * imageVersion is a short hash of the card file, passed in by the build.
+ * Messaging apps and social sites cache previews by image URL for weeks; a
+ * new URL whenever the card changes makes a regenerated card show up on the
+ * next share instead of the old one.
+ */
+export function renderHead(d, { title, description, imageVersion } = {}) {
   const s = d.site
   // The tab always reads plainly; the descriptive title is kept for sharing.
   const desc = description ?? s.description
   const share = title ?? s.title
+  const imageUrl = new URL(s.ogImage, s.url)
+  if (imageVersion) imageUrl.searchParams.set('v', imageVersion)
+  const image = imageUrl.href
   return `<title>${esc(s.tabTitle)}</title>
     <meta name="description" content="${esc(desc)}">
     <meta name="author" content="${esc(s.author)}">
@@ -377,14 +443,25 @@ export function renderHead(d, { title, description } = {}) {
     <meta name="theme-color" content="${esc(s.themeColor.light)}" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="${esc(s.themeColor.dark)}" media="(prefers-color-scheme: dark)">
     <link rel="canonical" href="${esc(s.url)}">
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="${esc(s.tabTitle)}">
     <meta property="og:title" content="${esc(share)}">
     <meta property="og:description" content="${esc(desc)}">
     <meta property="og:url" content="${esc(s.url)}">
-    <meta property="og:image" content="${esc(new URL(s.ogImage, s.url).href)}">
-    <meta name="twitter:card" content="summary_large_image">`
+    <meta property="og:image" content="${esc(image)}">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="${esc(s.ogImageAlt)}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${esc(share)}">
+    <meta name="twitter:description" content="${esc(desc)}">
+    <meta name="twitter:image" content="${esc(image)}">
+    <meta name="twitter:image:alt" content="${esc(s.ogImageAlt)}">`
 }
 
 export function renderIndex(d) {

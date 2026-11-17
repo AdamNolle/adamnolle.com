@@ -6,16 +6,20 @@
     "hero.windowLabel": "Text in the hero terminal title bar. Leave empty to hide it.",
     "site.tabTitle": "Browser tab text. site.title is the longer form used for link previews.",
     "history[].entries[]": "current: true tints the role green and fills the timeline marker. marker: true fills it without the tint.",
-    "header tooltips": "Icon links show tooltip on hover and label to screen readers. Omit tooltip and it falls back to label."
+    "header tooltips": "Icon links show tooltip on hover and label to screen readers. Omit tooltip and it falls back to label.",
+    "site.ogImage": "The link-preview card, 1200x630. Rebuild it with npm run assets:og after changing hero.asciiWords or hero.lines.",
+    "header.social[].icon": "github, linkedin, youtube, www-globe (the spinning Web World Wide globe baked by npm run assets:globe), or nolle-studios (the four-square Nolle Studios mark).",
+    "history[].entries[].projects": "Optional. Projects done within a role, shown as sub-sections: name, what (one line), tags, bullets, and an optional href. projectsLabel heads the list."
   },
   "site": {
     "lang": "en",
     "tabTitle": "Adam Nolle",
-    "title": "Adam Nolle — Application Developer",
-    "description": "Adam Nolle — application developer at Accenture Federal Services. Rust, Scala, TypeScript and Swift projects, and the story so far.",
+    "title": "Adam Nolle — Software Engineer",
+    "description": "Adam Nolle — software engineer and application developer at Accenture Federal Services. Rust, Scala, Go, TypeScript and Swift projects, and the apps behind Web World Wide.",
     "author": "Adam Nolle",
     "url": "https://adamnolle.com/",
-    "ogImage": "/media/adam.png",
+    "ogImage": "/media/og-card.png",
+    "ogImageAlt": "ADAM NOLLE in green ASCII art beside an ASCII Earth in a black terminal window, captioned Application Developer · Accenture Federal Services.",
     "themeColor": {
       "light": "#f0f0f0",
       "dark": "#070707"
@@ -33,19 +37,27 @@
         "href": "#about"
       },
       {
-        "label": "HISTORY",
-        "href": "#history"
+        "label": "RESUME",
+        "href": "#resume"
       },
       {
         "label": "BLOG",
         "href": "https://webworldwide.online/blog/"
-      },
-      {
-        "label": "EMAIL",
-        "href": "mailto:hello@webworldwide.online"
       }
     ],
     "social": [
+      {
+        "icon": "www-globe",
+        "label": "Web World Wide — webworldwide.online",
+        "tooltip": "Web World Wide",
+        "href": "https://webworldwide.online/"
+      },
+      {
+        "icon": "nolle-studios",
+        "label": "Nolle Studios — nollestudios.com",
+        "tooltip": "Nolle Studios",
+        "href": "https://nollestudios.com/"
+      },
       {
         "icon": "github",
         "label": "GitHub",
@@ -69,14 +81,14 @@
   },
   "hero": {
     "windowLabel": "",
-    "heading": "Adam Nolle — Application Developer",
+    "heading": "Adam Nolle — Software Engineer",
     "asciiWords": [
       "ADAM",
       "NOLLE"
     ],
     "nameFallback": "ADAM NOLLE",
     "lines": [
-      "> APPLICATION DEVELOPER · ACCENTURE FEDERAL SERVICES (AFS)",
+      "> APPLICATION DEVELOPER · ACCENTURE FEDERAL SERVICES",
       "> B.S. CS + CPE, MATH MINOR · MISSOURI S&T"
     ],
     "ctas": [
@@ -107,7 +119,7 @@
     },
     "history": {
       "num": "04",
-      "title": "HISTORY"
+      "title": "RESUME"
     }
   },
   "projects": [
@@ -115,36 +127,72 @@
       "name": "FileID",
       "kind": "DESKTOP · CLI · TUI",
       "site": "https://fileid.webworldwide.online/",
-      "source": "https://github.com/AdamNolle/FileID",
+      "source": "https://github.com/WebWorldWide/FileID",
       "status": "LIVE",
       "accent": "#f2c200",
       "logo": {
         "type": "image",
-        "src": "/media/logos/fileid.png"
+        "src": "/media/logos/fileid.webp"
       },
-      "description": "Point it at a folder and it reads everything inside. Tags by content, clusters faces into people you name once, groups duplicates. Runs entirely on your machine.",
+      "description": "Point it at a folder and it sorts everything inside, offline. Tags by content, clusters faces into people you name once, groups duplicates, and answers questions about the library with citations. Nothing leaves your machine.",
       "tags": [
         "RUST",
         "SWIFT",
-        "WINUI",
-        "GTK4"
+        "C#",
+        "ON-DEVICE AI"
       ]
     },
     {
       "name": "Document Finder",
-      "kind": "DESKTOP APP",
+      "kind": "DESKTOP · MCP",
       "site": "https://documentfinder.webworldwide.online/",
-      "source": "https://github.com/AdamNolle/Document-Finder",
+      "source": "https://github.com/WebWorldWide/Document-Finder",
       "status": "LIVE",
       "accent": "#5aa9d6",
       "logo": {
         "type": "image",
-        "src": "/media/logos/document-finder.png"
+        "src": "/media/logos/document-finder.webp"
       },
-      "description": "Searches eight open-access research sources plus the web at once, downloads what it finds, pulls the text out, and bundles the lot into a zip you can drop straight into an AI context window.",
+      "description": "Searches eight open-access research sources at once, pulls the text out of what it finds, and serves chunked, cited results straight to AI tools over MCP.",
       "tags": [
         "RUST",
+        "TAURI",
         "SOLID.JS",
+        "MCP"
+      ]
+    },
+    {
+      "name": "Media Shuttle",
+      "kind": "MACOS · WINDOWS · LINUX",
+      "site": "https://mediashuttle.webworldwide.online/",
+      "source": "https://github.com/WebWorldWide/media-shuttle",
+      "status": "LIVE",
+      "accent": "#e0483e",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/media-shuttle.webp"
+      },
+      "description": "Copies photos and videos off camera cards, checks every copy with SHA-256, and will not let you erase the card until every file has a verified copy.",
+      "tags": [
+        "SWIFT",
+        "C#",
+        "PYTHON"
+      ]
+    },
+    {
+      "name": "Cube Solver",
+      "kind": "DESKTOP · BROWSER",
+      "source": "https://github.com/WebWorldWide/Cube-Solver",
+      "status": "LIVE",
+      "accent": "#d6203c",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/cube-solver.webp"
+      },
+      "description": "Solves 2×2 up to 11×11 puzzle cubes from the sticker colors alone. Scramble it or turn faces yourself, then watch it solve; every answer has to replay back to solved before it counts.",
+      "tags": [
+        "RUST",
+        "WEBASSEMBLY",
         "TAURI"
       ]
     },
@@ -157,7 +205,7 @@
       "accent": "#c8622f",
       "logo": {
         "type": "image",
-        "src": "/media/logos/guitar-tutor.png"
+        "src": "/media/logos/guitar-tutor.webp"
       },
       "description": "Fretboard, chord library, ear trainer, metronome. Every string is synthesized live with a Karplus-Strong model instead of samples, so the whole thing is about 72 KB and works offline.",
       "tags": [
@@ -176,7 +224,7 @@
       "hoverShadow": "var(--shade)",
       "logo": {
         "type": "image",
-        "src": "/media/logos/keyboard-tutor.png"
+        "src": "/media/logos/keyboard-tutor.webp"
       },
       "description": "Play the keys, build chords, train your ear, keep time. Works with the computer keyboard or a MIDI controller, generates its own sound, and needs no account or backend.",
       "tags": [
@@ -186,20 +234,37 @@
       ]
     },
     {
-      "name": "Cube Solver",
-      "kind": "DESKTOP · BROWSER",
-      "source": "https://github.com/AdamNolle/Cube-Solver",
+      "name": "Watched Blocked",
+      "kind": "BROWSER EXTENSION",
+      "source": "https://github.com/AdamNolle/watched-blocked",
       "status": "LIVE",
-      "accent": "#d6203c",
+      "accent": "#e00000",
       "logo": {
         "type": "image",
-        "src": "/media/logos/cube-solver.png"
+        "src": "/media/logos/watched-blocked.webp"
       },
-      "description": "Scramble it or turn faces yourself, then watch it solve from the sticker colors alone. Every solution has to replay back to solved before it counts. Desktop goes to 11×11.",
+      "description": "Hides YouTube videos you've already watched from the home page, sidebar, search and playlists, while channel pages, Subscriptions and History still show everything.",
       "tags": [
-        "RUST",
-        "WEBASSEMBLY",
-        "TAURI"
+        "JAVASCRIPT",
+        "MANIFEST V3",
+        "CHROMIUM"
+      ]
+    },
+    {
+      "name": "Anchor",
+      "kind": "BROWSER EXTENSION",
+      "source": "https://github.com/AdamNolle/Anchor",
+      "status": "LIVE",
+      "accent": "#8a8a8a",
+      "logo": {
+        "type": "image",
+        "src": "/media/logos/anchor.webp"
+      },
+      "description": "Paused should mean paused. Holds a video you paused until you press play, so ads ending, streams reconnecting and scripted restarts cannot resume it, while next episodes and autoplay keep working.",
+      "tags": [
+        "JAVASCRIPT",
+        "MANIFEST V3",
+        "CHROMIUM"
       ]
     },
     {
@@ -210,91 +275,13 @@
       "accent": "#f0466a",
       "logo": {
         "type": "image",
-        "src": "/media/logos/liveblock.png"
+        "src": "/media/logos/liveblock.webp"
       },
       "description": "An ad blocker that works at the display layer instead of inside the browser, so it covers apps and streams too. Detection runs on device.",
       "tags": [
         "SWIFT",
         "COREML",
         "TAURI"
-      ]
-    },
-    {
-      "name": "3DSeen",
-      "kind": "IOS · IPADOS · MACOS",
-      "source": "https://github.com/AdamNolle/3DSeen",
-      "status": "UNFINISHED",
-      "accent": "#4a90d9",
-      "logo": {
-        "type": "image",
-        "src": "/media/logos/3dseen.png"
-      },
-      "description": "Guided photogrammetry and LiDAR capture on iPhone, with optional handoff to a paired Mac for the heavy processing. Exports USDZ, OBJ, STL and PLY.",
-      "tags": [
-        "SWIFT",
-        "ARKIT",
-        "METAL"
-      ]
-    },
-    {
-      "name": "Habit Map",
-      "kind": "IOS · IPADOS · WATCHOS",
-      "source": "https://github.com/AdamNolle/Habit-Map",
-      "status": "UNFINISHED",
-      "accent": "#58c96a",
-      "logo": {
-        "type": "habitGrid",
-        "cells": [
-          0.2,
-          0.55,
-          1,
-          0.35,
-          0.15,
-          0.8,
-          0.15,
-          0.45,
-          1,
-          0.25,
-          0.3,
-          1,
-          0.7,
-          0.2,
-          0.55,
-          0.15,
-          0.4,
-          0.25,
-          0.85,
-          1,
-          0.6,
-          0.2,
-          0.95,
-          0.3,
-          0.15
-        ]
-      },
-      "description": "A pixel-art habit tracker for iPhone, iPad and Watch that does not punish you for missing a day.",
-      "tags": [
-        "SWIFT",
-        "SWIFTUI",
-        "WATCHOS"
-      ]
-    },
-    {
-      "name": "Web",
-      "kind": "DESKTOP · LOCAL-FIRST",
-      "source": "https://github.com/AdamNolle/Web",
-      "status": "UNFINISHED",
-      "accent": "#5b21b6",
-      "logo": {
-        "type": "dot",
-        "bg": "#5b21b6"
-      },
-      "description": "An RSS reader that builds one daily edition and then stops, instead of a feed that never ends. Everything stays in a local SQLite file.",
-      "tags": [
-        "RUST",
-        "TAURI",
-        "REACT",
-        "SQLITE"
       ]
     }
   ],
@@ -320,6 +307,11 @@
         "value": "Missouri S&T, Dec 2024"
       },
       {
+        "label": "EMAIL",
+        "value": "hello@webworldwide.online",
+        "href": "mailto:hello@webworldwide.online"
+      },
+      {
         "label": "WRITING",
         "value": "Web World Wide Blog",
         "href": "https://webworldwide.online/blog/"
@@ -331,41 +323,51 @@
     ],
     "skills": [
       {
-        "group": "LANGUAGES",
+        "group": "AI & ML",
         "accent": "#d84fa0",
         "items": [
-          "Scala",
-          "Python",
-          "C++",
-          "TypeScript",
-          "JavaScript",
-          "Java",
-          "SQL"
+          "AI agents",
+          "LLMs",
+          "RAG",
+          "MCP",
+          "Context engineering",
+          "Evaluation",
+          "Sandboxing",
+          "Search & ranking",
+          "Vision models",
+          "ONNX"
         ]
       },
       {
-        "group": "FRAMEWORKS",
+        "group": "LANGUAGES",
         "accent": "#5aa9d6",
         "items": [
-          "Angular",
-          "React",
-          "Astro",
-          "Play",
-          "Akka",
-          "Tauri",
-          "Storybook"
+          "Scala",
+          "Go",
+          "Rust",
+          "TypeScript",
+          "Python",
+          "Swift",
+          "C#",
+          "SQL"
         ]
       },
       {
         "group": "TOOLS",
         "accent": "#f2c200",
         "items": [
-          "Git",
-          "Jenkins",
-          "Azure DevOps",
-          "Docker",
+          "Play",
+          "Akka",
+          "Kafka",
+          "Angular",
+          "MarkLogic",
           "AWS",
-          "Linux / Unix"
+          "OpenAPI",
+          "Docker",
+          "Jenkins",
+          "SonarQube",
+          "Tauri",
+          "SQLite"
         ]
       }
     ]
@@ -407,16 +409,108 @@
           "period": "SEP 2025 — PRESENT",
           "role": "APPLICATION DEVELOPER",
           "current": true,
-          "location": "ST. LOUIS, MO",
+          "location": "REMOTE · ST. LOUIS, MO",
           "bullets": [
-            "Developing resilient backend applications for the public sector using Scala.",
-            "Collaborating in an Agile team to deliver secure, high-quality code for critical services."
+            "Backend engineer on HealthCare.gov (the CMS Federally Facilitated Marketplace): eligibility, enrollment and notice services.",
+            "Fixed eligibility logic that gave still-enrolled Medicaid/CHIP members the wrong decision, and raised its test coverage from 96.7% to 100%.",
+            "Converted and repaired 144 legacy API docs into 163 OpenAPI 3.0 specs for the new API gateway, and ran the team's training on it."
           ],
           "tags": [
             "SCALA",
-            "BACKEND",
-            "AGILE",
-            "PUBLIC SECTOR"
+            "PLAY",
+            "KAFKA",
+            "MARKLOGIC",
+            "AWS",
+            "AI TOOLS"
+          ],
+          "projectsLabel": "INTERNAL AI TOOLS · SELF-INITIATED",
+          "projects": [
+            {
+              "name": "Ultron",
+              "what": "Self-verifying AI coding harness; a drop-in replacement for Claude Code.",
+              "tags": [
+                "GO"
+              ],
+              "bullets": [
+                "Developed it as one self-contained program (12,000+ tests) that won't report work done until the tests pass.",
+                "Outscored Claude Code on a 50-task SWE-bench Pro sample (37 vs. 35 solved) and ran at 0.77× its cost over 274 further tasks.",
+                "Secured it with a sandbox for Linux, macOS and Windows that IT can lock down, plus a tamper-evident audit log.",
+                "Trained a 2.4 MB built-in model that picks the right tool among 5,279 skills in 0.6 ms with 92% precision, fully offline."
+              ]
+            },
+            {
+              "name": "Vision",
+              "what": "Control center for running many AI coding agents at once.",
+              "tags": [
+                "RUST",
+                "TYPESCRIPT"
+              ],
+              "bullets": [
+                "Built a desktop app that runs many agents across projects, each on its own isolated copy of the code.",
+                "Designed it to mark work \"Verified\" only when the build and tests pass, and to share one real Chrome browser with the user."
+              ]
+            }
+          ]
+        },
+        {
+          "org": "Web World Wide",
+          "period": "MAY 2026 — PRESENT",
+          "role": "INDEPENDENT DEVELOPER",
+          "current": true,
+          "location": "WEBWORLDWIDE.ONLINE",
+          "bullets": [
+            "Solo-built apps and a blog on a self-hosted CMS (Docker, Caddy, Cloudflare Tunnel)."
+          ],
+          "tags": [
+            "RUST",
+            "SWIFT",
+            "TAURI",
+            "DOCKER"
+          ],
+          "projectsLabel": "APPS",
+          "projects": [
+            {
+              "name": "FileID",
+              "href": "https://fileid.webworldwide.online/",
+              "what": "Private, offline AI file organizer.",
+              "tags": [
+                "RUST",
+                "SWIFT",
+                "C#"
+              ],
+              "bullets": [
+                "Shipped an app that sorts entire photo and document libraries offline, using on-device AI models for images, text and faces.",
+                "Added chat that answers questions about the library with citations, combining keyword and embedding search with a local LLM.",
+                "Developed native macOS, Windows and Linux apps (4,000+ tests, no telemetry), now converging on one shared Rust core."
+              ]
+            },
+            {
+              "name": "Media Shuttle",
+              "href": "https://mediashuttle.webworldwide.online/",
+              "what": "Copies camera memory cards and blocks erasing until every copy is checksum-verified.",
+              "tags": [
+                "SWIFT",
+                "C#",
+                "PYTHON"
+              ],
+              "bullets": [
+                "Hashes every file with SHA-256 on the card and at the destination, and keeps a copy only when the two match.",
+                "Unlocks erase only after a verified transfer, re-checks every file against its copy first, and refuses if anything is unverified.",
+                "Ships for macOS (signed and notarized, with Apple Photos import and a menu bar panel), Windows and Linux."
+              ]
+            },
+            {
+              "name": "Document Finder",
+              "href": "https://documentfinder.webworldwide.online/",
+              "what": "Searches eight open-access sources and serves chunked, cited results to AI tools over MCP.",
+              "tags": [
+                "RUST",
+                "TAURI"
+              ],
+              "bullets": [
+                "Queries arXiv, OpenAlex, Semantic Scholar, Europe PMC, Internet Archive, DOAJ, Zenodo and Project Gutenberg at once, plus a built-in web meta-search."
+              ]
+            }
           ]
         },
         {
@@ -425,9 +519,9 @@
           "role": "WIRELESS COMMUNICATIONS NETWORK SPECIALIST I",
           "location": "ST. CHARLES COUNTY, MO",
           "bullets": [
-            "Maintain and troubleshoot mission-critical P25 radio, microwave, and LAN/WAN systems supporting public safety communications across the county.",
-            "Diagnose and resolve technical issues using network analyzers and RF tools; perform system upgrades and preventative maintenance.",
-            "Collaborate with contractors and first responders to deploy secure, reliable communication infrastructure, ensuring compliance with operational standards and regulatory policies."
+            "Kept the county's emergency radio (P25), microwave and computer networks running at 99.9% uptime.",
+            "Diagnosed and resolved technical issues using network analyzers and RF tools; performed system upgrades and preventative maintenance.",
+            "Worked with contractors and first responders to deploy secure, reliable communication infrastructure that met operational and regulatory standards."
           ],
           "tags": [
             "P25 RADIO",
@@ -481,6 +575,7 @@
           "location": "ROLLA, MO",
           "marker": true,
           "bullets": [
+            "Led nine student groups and secured $18,000+ from student council for AI servers.",
             "Developed and managed many new ACM services and events, including MegaMiner AI (revived), a new ACM Wiki, an online storefront for ACM merchandise, an ACM file server and the ACM general website.",
             "Created a new ACM Logistics Officer position to help with the organization and functionality of ACM.",
             "Worked with the Treasurer, Vice-President Internal, Vice-President External and Logistics Officer to organize events, manage conflicts, provide resources, and work with Administration for ACM and all its SIGs."
@@ -520,7 +615,8 @@
           "location": "ROLLA, MO",
           "marker": true,
           "bullets": [
-            "Minor in Mathematics. GPA 3.33 / 4.0."
+            "Minor in Mathematics. Dean's List twice.",
+            "Undergraduate research assistant in Computer Science (2024); web support for the mst.edu sites (2022–2024)."
           ],
           "tags": []
         }
@@ -576,14 +672,14 @@
       ],
       "speed": 5,
       "logos": [
-        "/media/js.png",
-        "/media/cpp.png",
-        "/media/html.png",
-        "/media/css.png",
-        "/media/tux.png",
-        "/media/printing.png"
+        "/media/js.webp",
+        "/media/cpp.webp",
+        "/media/html.webp",
+        "/media/css.webp",
+        "/media/tux.webp",
+        "/media/printing.webp"
       ],
-      "portrait": "/media/adam.png"
+      "portrait": "/media/adam.webp"
     },
     "about": {
       "title": "Adam Nolle — About Me",

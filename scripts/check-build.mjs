@@ -92,6 +92,11 @@ for (const page of pages) {
     if (!assetPaths.has(src.split(/[?#]/)[0])) note('missing asset', `${where} references ${src}`)
   }
 
+  // Background sprites set in style attributes (the pixel globes).
+  for (const m of html.matchAll(/url\((\/[^)\s]+)\)/g)) {
+    if (!assetPaths.has(m[1])) note('missing asset', `${where} uses background ${m[1]}`)
+  }
+
   /* ---------------------------------------------------------------- new tabs */
 
   // Every link navigates in place. On a phone a new tab reads as a dead tap,
@@ -171,7 +176,7 @@ for (const c of declared) {
 /* ------------------------------------------------- JS hooks match the markup */
 
 const indexHtml = readFileSync(join(DIST, 'index.html'), 'utf8')
-for (const hook of ['data-ascii', 'data-globe', 'data-theme-toggle', 'data-reveal', 'data-hero-name']) {
+for (const hook of ['data-ascii', 'data-theme-toggle', 'data-reveal', 'data-hero-name']) {
   if (!indexHtml.includes(hook)) note('js hook', `dist/index.html has no [${hook}]`)
 }
 

@@ -1,6 +1,7 @@
 /**
- * Page bootstrap: theme, scroll reveal, and lazy start-up for the two canvas
- * animations. Everything below is progressive enhancement — the page is fully
+ * Page bootstrap: theme, scroll reveal, and lazy start-up for the ASCII hero.
+ * The Web World Wide globes are CSS-only (see scripts/make-www-globe.mjs).
+ * Everything below is progressive enhancement — the page is fully
  * rendered and readable before any of this runs.
  *
  * The stylesheet is not imported here on purpose: the build inlines it into
@@ -122,13 +123,6 @@ function initAnimations() {
     const nameEl = document.querySelector<HTMLElement>('[data-hero-name]')
     whenNear(ascii, () => {
       void import('./ascii-hero').then((m) => m.startAscii(ascii, { words, nameEl }))
-    })
-  }
-
-  const globe = document.querySelector<HTMLCanvasElement>('[data-globe]')
-  if (globe) {
-    whenNear(globe, () => {
-      void import('./globe').then((m) => m.startGlobe(globe))
     })
   }
 }

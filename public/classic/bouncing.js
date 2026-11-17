@@ -20,7 +20,7 @@ var CONFIG = window.__CLASSIC__ || {
   background: [9, 5, 34],
   speed: 5,
   logos: [],
-  portrait: '/media/adam.png',
+  portrait: '/media/adam.webp',
 }
 
 var sprites = []

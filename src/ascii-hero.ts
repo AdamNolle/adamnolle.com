@@ -4,7 +4,8 @@
  *
  * Ported from the Claude Design source. Added here: the render loop stops when
  * the hero scrolls out of view or the tab is hidden, so a backgrounded page
- * costs nothing.
+ * costs nothing, and the sphere is projected once per layout rather than once
+ * per frame, so the loop runs at the display's full refresh rate.
  */
 
 type Stop = () => void
@@ -27,7 +28,7 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
   let dist: Uint8Array | null = null
   let MW = 0
   let MH = 0
-  let lastDraw = -1
+  let lastTs = -1
   let wide = true
 
   let artKey = ''
@@ -120,18 +121,6 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
     dist = out
   }
 
-  const sample = (lat: number, lon: number) => {
-    if (!mask) return null
-    let u = (lon + Math.PI) / (2 * Math.PI)
-    u -= Math.floor(u)
-    let v = 0.5 - lat / Math.PI
-    if (v < 0) v = 0
-    else if (v > 0.999999) v = 0.999999
-    const px = (u * MW) | 0
-    const py = (v * MH) | 0
-    const i = py * MW + px
-    return { land: (mask[i >> 3] & (128 >> (i & 7))) !== 0, d: dist ? dist[i] : 0 }
-  }
 
   /* ------------------------------------------------------------- word art */
 
@@ -255,6 +244,7 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
     // Narrow layout drops the ASCII wordmark, so show the plain name instead.
     if (opts.nameEl) opts.nameEl.style.display = wide ? 'none' : 'block'
     artKey = ''
+    build()
   }
 
   const write = (buf: string[], x: number, y: number, str: string) => {
@@ -267,7 +257,40 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
 
   /* --------------------------------------------------------------- render */
 
-  const render = () => {
+  // Everything about a globe cell except the rotation is fixed for a given
+  // layout: where it sits on the sphere, how it is lit, which dither pattern it
+  // belongs to. build() works that out once; a frame is then one mask lookup
+  // per cell, with no trig and no allocation, so it fits a 120Hz frame budget
+  // and never hands the garbage collector anything to pause for.
+
+  const SP = 32 // ' '
+  const NL = 10 // '\n'
+  const COLON = 58 // ':'
+  const DOT = 46 // '.'
+  const LANDC = LAND.map((c) => c.charCodeAt(0))
+  const G15 = Math.PI / 6
+
+  // Per-cell flags.
+  const LIMB = 1
+  const LATLINE = 2
+  const DITHER2 = 4 // (x + y) % 2 === 0
+  const DITHER3 = 8 // (x + y) % 3 === 0
+  const DITHER5 = 16 // (x * 2 + y) % 5 === 0
+  const DITHER9 = 32 // (x + y * 3) % 9 === 0
+
+  let base = new Uint8Array(0) // spaces, newlines and the wordmark
+  let out = new Uint8Array(0) // base plus this frame's globe
+  let cellAt = new Int32Array(0) // offset of each globe cell in `out`
+  let cellRow = new Int32Array(0) // offset of its latitude's row in the mask
+  let cellLon = new Float64Array(0) // its longitude before rotation
+  let cellLand = new Float64Array(0) // land shading without relief
+  let cellLit = new Float64Array(0) // ocean shading
+  let cellFlags = new Uint8Array(0)
+  let shown = ''
+  const decoder = new TextDecoder()
+
+  const build = () => {
+    const stride = W + 1 // each row is W characters and a newline
     const buf: string[] = new Array(W * H).fill(' ')
     const rowsR = wide ? Math.round(H * 0.47) : Math.round((W / 2 - 1) * 0.6)
     const colsR = rowsR / 0.6
@@ -299,13 +322,26 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
       for (let r = 0; r < artB.length; r++) write(buf, 1, yB + r, artB[r])
     }
 
+    base = new Uint8Array(stride * H - 1).fill(SP)
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) base[y * stride + x] = buf[x + y * W].charCodeAt(0)
+      if (y < H - 1) base[y * stride + W] = NL
+    }
+    out = new Uint8Array(base.length)
+
     const tilt = 0.4
     const ct = Math.cos(tilt)
     const st = Math.sin(tilt)
     const lx = -0.19
     const ly = 0.22
     const lz = 0.957
-    const G15 = Math.PI / 6
+
+    const at: number[] = []
+    const row: number[] = []
+    const lonA: number[] = []
+    const landA: number[] = []
+    const litA: number[] = []
+    const flags: number[] = []
 
     for (let y = 0; y < H; y++) {
       const ny = (y + 0.5 - gcy) / rowsR
@@ -320,50 +356,111 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
         const ry = vy * ct + nz * st
         const rz = nz * ct - vy * st
         const lat = Math.asin(ry < -1 ? -1 : ry > 1 ? 1 : ry)
-        const lon = Math.atan2(nx, rz) + rot
 
         let lum = nx * lx + vy * ly + nz * lz
         if (lum < 0) lum = 0
         else if (lum > 1) lum = 1
 
-        const s = sample(lat, lon)
-        let ch: string
+        let v = 0.5 - lat / Math.PI
+        if (v < 0) v = 0
+        else if (v > 0.999999) v = 0.999999
 
-        if (q > 0.965) {
-          ch = ':'
-        } else if (s && s.land) {
-          const relief = Math.min(1, s.d / 22)
-          const t = 0.22 + 0.46 * relief + 0.32 * lum * (0.7 + 0.3 * nz)
-          ch = LAND[Math.min(LAND.length - 1, Math.round(Math.min(1, t) * (LAND.length - 1)))]
-        } else {
-          const lit = lum * (0.55 + 0.45 * nz)
-          const latg = Math.abs(((lat + Math.PI * 2) % G15) - G15 / 2) < 0.028
-          const long = Math.abs((((lon % G15) + G15) % G15) - G15 / 2) < 0.024
-          const dep = s ? s.d : 40
-          if ((latg || long) && lit > 0.2) ch = '.'
-          else if (dep < 4 && lit > 0.22) ch = (x + y) % 2 === 0 ? ':' : '.'
-          else if (dep < 11 && lit > 0.28 && (x + y) % 3 === 0) ch = '.'
-          else if (lit > 0.6 && (x * 2 + y) % 5 === 0) ch = '.'
-          else if (lit > 0.3 && (x + y * 3) % 9 === 0) ch = '.'
-          else ch = ' '
-        }
-        buf[x + y * W] = ch
+        at.push(y * stride + x)
+        row.push(((v * MH) | 0) * MW)
+        lonA.push(Math.atan2(nx, rz))
+        landA.push(0.22 + 0.32 * lum * (0.7 + 0.3 * nz))
+        litA.push(lum * (0.55 + 0.45 * nz))
+        flags.push(
+          (q > 0.965 ? LIMB : 0) |
+            (Math.abs(((lat + Math.PI * 2) % G15) - G15 / 2) < 0.028 ? LATLINE : 0) |
+            ((x + y) % 2 === 0 ? DITHER2 : 0) |
+            ((x + y) % 3 === 0 ? DITHER3 : 0) |
+            ((x * 2 + y) % 5 === 0 ? DITHER5 : 0) |
+            ((x + y * 3) % 9 === 0 ? DITHER9 : 0)
+        )
       }
     }
 
-    const rows: string[] = []
-    for (let r = 0; r < H; r++) rows.push(buf.slice(r * W, r * W + W).join(''))
-    el.textContent = rows.join('\n')
-    if (!reduce) rot += 0.0028
+    cellAt = Int32Array.from(at)
+    cellRow = Int32Array.from(row)
+    cellLon = Float64Array.from(lonA)
+    cellLand = Float64Array.from(landA)
+    cellLit = Float64Array.from(litA)
+    cellFlags = Uint8Array.from(flags)
+    shown = ''
+  }
+
+  const render = () => {
+    out.set(base)
+    const top = LANDC.length - 1
+    const n = cellAt.length
+
+    for (let k = 0; k < n; k++) {
+      const f = cellFlags[k]
+      if (f & LIMB) {
+        out[cellAt[k]] = COLON
+        continue
+      }
+
+      const lon = cellLon[k] + rot
+      let land = false
+      let d = 40
+      if (mask) {
+        let u = (lon + Math.PI) / (2 * Math.PI)
+        u -= Math.floor(u)
+        const i = cellRow[k] + ((u * MW) | 0)
+        land = (mask[i >> 3] & (128 >> (i & 7))) !== 0
+        d = dist ? dist[i] : 0
+      }
+
+      let ch = SP
+      if (land) {
+        const t = cellLand[k] + 0.46 * Math.min(1, d / 22)
+        ch = LANDC[Math.min(top, Math.round(Math.min(1, t) * top))]
+      } else {
+        const lit = cellLit[k]
+        const meridian = Math.abs((((lon % G15) + G15) % G15) - G15 / 2) < 0.024
+        if ((f & LATLINE || meridian) && lit > 0.2) ch = DOT
+        else if (d < 4 && lit > 0.22) ch = f & DITHER2 ? COLON : DOT
+        else if (d < 11 && lit > 0.28 && f & DITHER3) ch = DOT
+        else if (lit > 0.6 && f & DITHER5) ch = DOT
+        else if (lit > 0.3 && f & DITHER9) ch = DOT
+      }
+      out[cellAt[k]] = ch
+    }
+
+    // At a frame's worth of rotation most frames change some cell, but not
+    // all; an identical frame skips the DOM entirely.
+    const text = decoder.decode(out)
+    if (text !== shown) {
+      el.textContent = text
+      shown = text
+    }
   }
 
   /* ----------------------------------------------------------- run control */
 
+  // Rotation is driven by elapsed time, not frame count, so the globe turns
+  // at the same speed at 60Hz, 120Hz or anything else. The original turned
+  // 0.0028 rad per ~42ms frame; dt is capped so a stalled frame cannot jump.
+  const SPEED = 0.0028 / 42
+
+  // Text is repainted at most 30 times a second. Each repaint rasterises
+  // thousands of glowing glyphs, and the cells only move about two columns a
+  // second, so more would cost frames elsewhere on the page without looking
+  // any smoother. The 2ms slack lands updates on an even beat: every 4th
+  // frame at 120Hz, every 2nd at 60Hz, never a 3-4-3 stutter.
+  const INTERVAL = 1000 / 30 - 2
+  let lastDraw = -1
+
   const frame = (ts: number) => {
     if (!running) return
     raf = requestAnimationFrame(frame)
-    // ~24fps is plenty for character cells and leaves the main thread free.
-    if (lastDraw >= 0 && ts - lastDraw < 42) return
+    // Earth turns west to east, so the longitude facing the viewer moves
+    // west and the land drifts left to right, matching the pixel globes.
+    if (lastTs >= 0) rot -= Math.min(ts - lastTs, 100) * SPEED
+    lastTs = ts
+    if (lastDraw >= 0 && ts - lastDraw < INTERVAL) return
     lastDraw = ts
     render()
   }
@@ -371,6 +468,7 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
   const play = () => {
     if (running || reduce || stopped) return
     running = true
+    lastTs = -1
     lastDraw = -1
     raf = requestAnimationFrame(frame)
   }
@@ -415,6 +513,7 @@ export function startAscii(el: HTMLElement, opts: Options): Stop {
     MW = m.EARTH.w
     MH = m.EARTH.h
     buildDistance()
+    build()
     render()
   })
 

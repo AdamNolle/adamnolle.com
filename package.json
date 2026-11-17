@@ -10,8 +10,11 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "assets:optimize": "node scripts/resize-png.mjs public/media/logos/*.png",
-    "assets:verify": "node scripts/verify-png.mjs public/media/logos/*.png public/media/*.png",
-    "check": "node scripts/check-build.mjs"
+    "assets:verify": "node scripts/verify-png.mjs public/*.png public/media/*.png",
+    "check": "node scripts/check-build.mjs",
+    "assets:globe": "node scripts/make-www-globe.mjs",
+    "assets:webp": "node scripts/to-webp.mjs",
+    "assets:og": "node scripts/make-og-card.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",

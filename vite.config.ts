@@ -19,6 +19,10 @@ const read = (p: string) => readFileSync(resolve(root, p), 'utf8').replace(/\r\n
 const content = () => JSON.parse(read('content/site.json'))
 const attr = (s: string) => String(s).replace(/"/g, '&quot;')
 
+/** First 10 hex chars of a file's SHA-256, for cache-busting URLs. */
+const fileHash = (p: string) =>
+  createHash('sha256').update(readFileSync(resolve(root, p))).digest('hex').slice(0, 10)
+
 /** Which page an entry HTML file is, derived from its path. */
 function pageOf(path: string) {
   const p = path.replace(/\\/g, '/')
@@ -141,7 +145,7 @@ function siteSSG(): Plugin {
         .replace('<!--@lang-->', attr(d.site.lang))
         .replace(
           '<!--@head-->',
-          `${renderHead(d, { title })}\n    <style>${css}</style>${classicCfg}`
+          `${renderHead(d, { title, imageVersion: fileHash('public' + d.site.ogImage) })}\n    <style>${css}</style>${classicCfg}`
         )
         .replace('<!--@body-->', body)
 

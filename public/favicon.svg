@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26">
+  <!-- The header mark (.mark in src/styles.css), following the system theme
+       the same way the page does: black and green in light, inverted in dark. -->
+  <style>
+    .bg { fill: #000000 }
+    .dash { fill: #00ff00 }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #00ff00 }
+      .dash { fill: #000000 }
+    }
+  </style>
+  <rect class="bg" width="26" height="26"/>
+  <rect class="dash" x="3" y="18" width="20" height="5"/>
+</svg>
